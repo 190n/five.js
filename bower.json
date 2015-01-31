@@ -1,0 +1,25 @@
+{
+    "name": "five.js",
+    "description": "Lightweight game engine for HTML5 Canvas",
+    "keywords": [
+        "game",
+        "html5",
+        "canvas"
+    ],
+    "homepage": "http://github.com/190n/five.js",
+    "main": "dist/five.min.js",
+    "license": [
+        "MIT",
+        "GPL-3.0"
+    ],
+    "ignore": [
+        "docs/"
+    ],
+    "authors": [
+        "190n"
+    ],
+    "repository": {
+        "type": "git",
+        "url": "git://github.com/190n/five.js.git"
+    }
+}
