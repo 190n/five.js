@@ -1,19 +1,22 @@
 {
     "name": "five.js",
+    "version": "0.1.0",
     "description": "Lightweight game engine for HTML5 Canvas",
+    "moduleType": [
+        "globals",
+        "node"
+    ],
     "keywords": [
         "game",
         "html5",
         "canvas"
     ],
-    "homepage": "http://github.com/190n/five.js",
+    "homepage": "https://github.com/190n/five.js",
     "main": "dist/five.min.js",
-    "license": [
-        "MIT",
-        "GPL-3.0"
-    ],
+    "license": "LGPL-3.0",
     "ignore": [
-        "docs/"
+        "doc/",
+        "examples/"
     ],
     "authors": [
         "190n"

@@ -1,0 +1,37 @@
+<!DOCTYPE html>
+<html>
+    <head>
+        <meta charset="utf-8">
+        <link rel="stylesheet" href="hyperspace/hyperspace-font.css">
+        <script src="../../dist/five.min.js"></script>
+        <script src="ship.js"></script>
+        <script src="rock.js"></script>
+        <script src="saucer-big.js"></script>
+        <script src="saucer-small.js"></script>
+        <script src="bullet.js"></script>
+        <script src="main.js"></script>
+        <style>
+            html, body {
+                background: black;
+                margin: 0;
+                padding: 0;
+            }
+
+            #canvas {
+                position: absolute;
+                left: 50%;
+                top: 50%;
+                margin-left: -321px;
+                margin-top: -321px;
+                border: thin solid white;
+            }
+        </style>
+        <title>five.js - Asteroids</title>
+    </head>
+    <body>
+        <canvas id="canvas">
+            Unfortunately, your browser does not support HTML5 Canvas, which is
+            required to run this game.
+        </canvas>
+    </body>
+</html>
