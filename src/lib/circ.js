@@ -1,9 +1,4 @@
-five.circ = function(loc, rad) {
-    // factory
-    return new five._Circ(loc, rad);
-};
-
-five._Circ = function(loc, rad) {
+five.Circ = function(loc, rad) {
     // position
     this.x = loc.x;
     this.y = loc.y;
@@ -12,11 +7,11 @@ five._Circ = function(loc, rad) {
 };
 
 // getter for boundingBox
-Object.defineProperty(five._Circ.prototype, 'boundingBox', {
+Object.defineProperty(five.Circ.prototype, 'boundingBox', {
     get: function() {
-        return five.rect(
-            five.point(this.x - this.radius, this.y - this.radius),
-            five.size(this.radius * 2, this.radius * 2)
+        return new five.Rect(
+            new five.Point(this.x - this.radius, this.y - this.radius),
+            new five.Size(this.radius * 2, this.radius * 2)
         );
     }
 });

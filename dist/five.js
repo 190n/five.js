@@ -1,6 +1,6 @@
 // five.js library v0.1.0
 // licensed under LGPL 3.0 license
-// built 2015-07-30
+// built 2015-08-14
 
 // in case the library before this didn't end with a semicolon
 ;
@@ -26,12 +26,7 @@ var five = {
 if(five.canvasSupport == 0.5) console.warn('No canvas text support.');
 if(!five.canvasSupport) throw new Error('No canvas support.');
 
-five.circ = function(loc, rad) {
-    // factory
-    return new five._Circ(loc, rad);
-};
-
-five._Circ = function(loc, rad) {
+five.Circ = function(loc, rad) {
     // position
     this.x = loc.x;
     this.y = loc.y;
@@ -40,11 +35,11 @@ five._Circ = function(loc, rad) {
 };
 
 // getter for boundingBox
-Object.defineProperty(five._Circ.prototype, 'boundingBox', {
+Object.defineProperty(five.Circ.prototype, 'boundingBox', {
     get: function() {
-        return five.rect(
-            five.point(this.x - this.radius, this.y - this.radius),
-            five.size(this.radius * 2, this.radius * 2)
+        return new five.Rect(
+            new five.Point(this.x - this.radius, this.y - this.radius),
+            new five.Size(this.radius * 2, this.radius * 2)
         );
     }
 });
@@ -61,7 +56,7 @@ five.collider = {
     circVsCirc: function(c1, c2) {
         // is the distance between their center points
         // less than or equal to the sum of their radii?
-        return five.point(c1.x, c1.y).distanceTo(five.point(c2.x, c2.y)) <= c1.radius + c2.radius;
+        return new five.Point(c1.x, c1.y).distanceTo(new five.Point(c2.x, c2.y)) <= c1.radius + c2.radius;
     },
 
     rectVsPoint: function(r, p) {
@@ -70,16 +65,11 @@ five.collider = {
     },
 
     circVsPoint: function(c, p) {
-        return five.point(c.x, c.y).distanceTo(p) <= c.radius;
+        return new five.Point(c.x, c.y).distanceTo(p) <= c.radius;
     }
 };
 
-five.color = function(r, g, b, a) {
-    // factory
-    return new five._Color(r, g, b, a);
-};
-
-five._Color = function(r, g, b, a) {
+five.Color = function(r, g, b, a) {
     this.r = r;
     this.g = g;
     this.b = b;
@@ -87,26 +77,19 @@ five._Color = function(r, g, b, a) {
     this.a = typeof a == 'undefined' ? 1 : a;
 };
 
-// getter for HTML color string
-Object.defineProperty(five._Color.prototype, 'str', {
-    get: function() {
-        // rgba() format is the easiest to construct here
-        return 'rgba(' + this.r + ', ' + this.g + ', ' + this.b + ', ' + this.a + ')';
-    }
-});
-
-five.delta = function(dx, dy) {
-    // factory
-    return new five._Delta(dx, dy);
+// function to get CSS string representation
+five.Color.prototype.toString = function() {
+    // rgba() format is the easiest to construct here
+    return 'rgba(' + this.r + ', ' + this.g + ', ' + this.b + ', ' + this.a + ')';
 };
 
-five._Delta = function(dx, dy) {
+five.Delta = function(dx, dy) {
     this.dx = dx;
     this.dy = dy;
 };
 
 // getter for length
-Object.defineProperty(five._Delta.prototype, 'length', {
+Object.defineProperty(five.Delta.prototype, 'length', {
     get: function() {
         // Pythagorean theorem
         return Math.sqrt(Math.pow(this.dx, 2) + Math.pow(this.dy, 2));
@@ -114,27 +97,22 @@ Object.defineProperty(five._Delta.prototype, 'length', {
 });
 
 // conversion to vector
-Object.defineProperty(five._Delta.prototype, 'vector', {
+Object.defineProperty(five.Delta.prototype, 'vector', {
     get: function() {
-        return five.vector(Math.atan2(this.dy, this.dx) * (180 / Math.PI) + 90, this.length);
+        return new five.Vector(Math.atan2(this.dy, this.dx) * (180 / Math.PI) + 90, this.length);
     }
 });
 
-five._Delta.prototype.add = function(otherDelta) {
-    return five.delta(this.dx + otherDelta.dx, this.dy + otherDelta.dy);
+five.Delta.prototype.add = function(otherDelta) {
+    return new five.Delta(this.dx + otherDelta.dx, this.dy + otherDelta.dy);
 };
 
-five.emitter = function() {
-    // factory
-    return new five._Emitter();
-};
-
-five._Emitter = function() {
+five.Emitter = function() {
     // no listeners yet
     this._listeners = {};
 };
 
-five._Emitter.prototype.on = function(evt, listener) {
+five.Emitter.prototype.on = function(evt, listener) {
     // when extended, the constructor is bypassed
     // so we might not have a listeners object yet
     if(!this._listeners) this._listeners = {};
@@ -144,7 +122,7 @@ five._Emitter.prototype.on = function(evt, listener) {
     this._listeners[evt].push(listener);
 };
 
-five._Emitter.prototype.emit = function(name, evt) {
+five.Emitter.prototype.emit = function(name, evt) {
     // for every listener for the specified event
     if(this._listeners[name]) this._listeners[name].forEach(function(l) {
         // call it with the event object
@@ -152,7 +130,7 @@ five._Emitter.prototype.emit = function(name, evt) {
     }, this);
 };
 
-five._Emitter.prototype.off = function(evt, listener) {
+five.Emitter.prototype.off = function(evt, listener) {
     if(!this._listeners[evt]) this._listeners[evt] = [];
     // filter through and remove all of the specified listener
     this._listeners[evt] = this._listeners[evt].filter(function(l) {
@@ -160,7 +138,7 @@ five._Emitter.prototype.off = function(evt, listener) {
     });
 };
 
-five._Emitter.prototype.once = function(evt, listener) {
+five.Emitter.prototype.once = function(evt, listener) {
     // create a listener that calls the specified function
     // then deletes itself
     var l = (function(e) {
@@ -170,12 +148,7 @@ five._Emitter.prototype.once = function(evt, listener) {
     this.on(evt, l);
 };
 
-five.entity = function(game, opts) {
-    // factory
-    return new five._Entity(game, opts);
-};
-
-five._Entity = function(game, opts) {
+five.Entity = function(game, opts) {
     this.game = game;
     this.x = typeof opts.location == 'undefined' ? 0 : opts.location.x;
     this.y = typeof opts.location == 'undefined' ? 0 : opts.location.y;
@@ -185,11 +158,11 @@ five._Entity = function(game, opts) {
     this.rotation = opts.rotation || 0;
     this.image = opts.image;
     this.boundingBox = typeof opts.boundingBox == 'undefined' ?
-        five.rect(five.point(this.x, this.y), this.size) :
-        five.rect(
+        new five.Rect(new five.Point(this.x, this.y), this.size) :
+        new five.Rect(
             // tweak the bounding box to the user's specification
-            five.point(this.x + opts.boundingBox.x, this.y + opts.boundingBox.y),
-            five.size(this.size.w + opts.boundingBox.w, this.size.h + opts.boundingBox.h)
+            new five.Point(this.x + opts.boundingBox.x, this.y + opts.boundingBox.y),
+            new five.Size(this.size.w + opts.boundingBox.w, this.size.h + opts.boundingBox.h)
         );
     if(opts.delta) {
         this.delta = opts.delta;
@@ -197,12 +170,12 @@ five._Entity = function(game, opts) {
     else if(opts.vector) {
         this.vector = opts.vector;
     }
-    else this.delta = five.delta(0, 0);
+    else this.delta = new five.Delta(0, 0);
     this.sprite = game.sprite({
         image: this.image,
         tileSize: opts.tileSize,
         size: this.size,
-        location: five.point(this.x, this.y),
+        location: new five.Point(this.x, this.y),
         alpha: this.alpha,
         rotation: this.rotation
     });
@@ -219,10 +192,10 @@ five._Entity = function(game, opts) {
 };
 
 // entities are emitters
-five._Entity.prototype = five.emitter();
-five._Entity.prototype.constructor = five._Entity;
+five.Entity.prototype = new five.Emitter();
+five.Entity.prototype.constructor = five.Entity;
 
-five._Entity.prototype._update = function(dt) {
+five.Entity.prototype._update = function(dt) {
     // update sprite
     this.sprite.update(dt);
     // convert vector to delta if we're using vectors
@@ -236,22 +209,22 @@ five._Entity.prototype._update = function(dt) {
     this.sprite.rotation = this.rotation;
 };
 
-five._Entity.prototype.draw = function() {
+five.Entity.prototype.draw = function() {
     // draw sprite
     this.sprite.draw();
 };
 
-five._Entity.prototype.play = function(name, dur, iters) {
+five.Entity.prototype.play = function(name, dur, iters) {
     this.sprite.play(name, dur, iters);
 };
 
-five._Entity.prototype._gameLoopHandler = function(dt) {
+five.Entity.prototype._gameLoopHandler = function(dt) {
     if(typeof this.update == 'function') this.update(dt);
     this._update(dt);
     this.draw();
 };
 
-five._Entity.prototype.kill = function() {
+five.Entity.prototype.kill = function() {
     this.dead = true;
     this.alive = false;
     this.emit('die', this.killer);
@@ -259,35 +232,25 @@ five._Entity.prototype.kill = function() {
     this.game.removeEntity(this);
 };
 
-five.font = function(game, name) {
-    // factory
-    return new five._Font(game, name);
-};
-
-five._Font = function(game, name) {
+five.Font = function(game, name) {
     this.game = game;
     this.name = name;
 };
 
-five._Font.prototype.draw = function(opts) {
+five.Font.prototype.draw = function(opts) {
     var ctx = this.game.ctx;
     ctx.save();
     // construct font string
     ctx.font = (opts.style || '') + ' ' + (opts.weight || '') + ' ' + (opts.size || 16) + 'px ' + this.name;
     ctx.textBaseline = opts.baseline;
     ctx.textAlign = opts.alignment;
-    ctx.fillStyle = typeof opts.color == 'undefined' ? '#000000' : opts.color.str;
+    ctx.fillStyle = typeof opts.color == 'undefined' ? '#000000' : opts.color.toString();
     // draw the text
     ctx.fillText(opts.text, opts.location.x, opts.location.y);
     ctx.restore();
 };
 
-five.game = function(opts) {
-    // factory
-    return new five._Game(opts);
-};
-
-five._Game = function(opts) {
+five.Game = function(opts) {
     this.initTime = Date.now();
     // for the preloader
     this.itemsLoaded = 0;
@@ -305,7 +268,7 @@ five._Game = function(opts) {
     // whether or not we should update entities
     this.updateEntities = true;
     // make a logger
-    this.logger = five.logger(this, {
+    this.logger = new five.Logger(this, {
         debug: opts.debug || false,
         timestamp: opts.debug || false,
         color: opts.fpsColor
@@ -321,9 +284,9 @@ five._Game = function(opts) {
     // precalculate this
     if(this.fps != 'auto') this.delay = 1000 / this.fps;
     // background defaults to white
-    this.background = typeof opts.background == 'undefined' ? '#ffffff': opts.background.str;
+    this.background = typeof opts.background == 'undefined' ? '#ffffff': opts.background.toString();
     // light blue
-    this.loaderColor = opts.loaderColor || five.color(0, 128, 255);
+    this.loaderColor = opts.loaderColor || new five.Color(0, 128, 255);
     this.canvas = opts.target;
     // we absolutely NEED this
     if(!this.canvas) throw new Error('five.game requires a canvas to initialize.');
@@ -333,15 +296,15 @@ five._Game = function(opts) {
     // context object
     this.ctx = this.canvas.getContext('2d');
     // state machine
-    this.stateMachine = five.stateMachine(opts.states, opts.state);
+    this.stateMachine = new five.StateMachine(opts.states, opts.state);
     // fps logger
     this.showFps = opts.showFps || false;
-    this.fpsColor = opts.fpsColor || five.color(80, 80, 80);
+    this.fpsColor = opts.fpsColor || new five.Color(80, 80, 80);
     this.fpsFont = this.font('monospace');
     this.realFps = 0;
     this.fpsGraph = [];
     // create mouse tracker
-    this.mouse = five.mouse(this);
+    this.mouse = new five.Mouse(this);
     for(var i = 0; i < 80; i++) this.fpsGraph.push(0);
     // log initialization
     this.log('INIT');
@@ -355,10 +318,10 @@ five._Game = function(opts) {
 };
 
 // games are emitters
-five._Game.prototype = five.emitter();
-five._Game.prototype.constructor = five._Game;
+five.Game.prototype = new five.Emitter();
+five.Game.prototype.constructor = five.Game;
 
-five._Game.prototype._gameLoop = function() {
+five.Game.prototype._gameLoop = function() {
     var now = Date.now();
     // next frame
     if(this.fps == 'auto') requestAnimationFrame(this._gameLoop.bind(this));
@@ -380,7 +343,7 @@ five._Game.prototype._gameLoop = function() {
         if(this.showFps) {
             // fps
             this.fpsFont.draw({
-                location: five.point(this.width, this.height),
+                location: new five.Point(this.width, this.height),
                 color: this.fpsColor,
                 baseline: 'bottom',
                 alignment: 'right',
@@ -391,11 +354,11 @@ five._Game.prototype._gameLoop = function() {
             // fps graph
             var sx = this.width - 160;
             this.ctx.save();
-            this.ctx.fillStyle = five.color(
+            this.ctx.fillStyle = new five.Color(
                 this.fpsColor.r * 1.5 > 255 ? 255 : this.fpsColor.r * 1.5,
                 this.fpsColor.g * 1.5 > 255 ? 255 : this.fpsColor.g * 1.5,
                 this.fpsColor.b * 1.5 > 255 ? 255 : this.fpsColor.b * 1.5
-            ).str;
+            ).toString();
             this.ctx.beginPath();
             this.fpsGraph.forEach(function(n, i) {
                 this.ctx.fillRect(sx + i, this.height - n / 80 * 48, 1, n / 80 * 48);
@@ -415,7 +378,7 @@ five._Game.prototype._gameLoop = function() {
             this.loaded = true;
         }
         // loading animation
-        this.ctx.strokeStyle = this.loaderColor.str;
+        this.ctx.strokeStyle = this.loaderColor.toString();
         var rad = (this.loaderInner + this.loaderOuter) / 2;
         var thickness = this.loaderOuter - this.loaderInner;
         this.ctx.lineWidth = thickness;
@@ -457,7 +420,7 @@ five._Game.prototype._gameLoop = function() {
     }
 };
 
-five._Game.prototype.start = function() {
+five.Game.prototype.start = function() {
     this.log('start game');
     this.startTime = Date.now();
     this.lastUpdate = Date.now();
@@ -466,7 +429,7 @@ five._Game.prototype.start = function() {
     this._gameLoop();
 };
 
-five._Game.prototype.log = function(msg) {
+five.Game.prototype.log = function(msg) {
     // it sounds weird, but the logger might not exist when we're logging some messages
     // this fixes that problem
     if(!this.logger) return this.backlog.push({
@@ -482,7 +445,7 @@ five._Game.prototype.log = function(msg) {
     this.logger.log(msg);
 };
 
-five._Game.prototype.warn = function(msg) {
+five.Game.prototype.warn = function(msg) {
     // see line 160
     if(!this.logger) return this.backlog.push({
         message: msg,
@@ -496,32 +459,32 @@ five._Game.prototype.warn = function(msg) {
     this.logger.warn(msg);
 };
 
-five._Game.prototype.flushLog = function() {
+five.Game.prototype.flushLog = function() {
     this.logger.flush();
     this.log('flush log');
 };
 
-five._Game.prototype.font = function(name) {
+five.Game.prototype.font = function(name) {
     this.log('font request: ' + name);
-    return five.font(this, name);
+    return new five.Font(this, name);
 };
 
-five._Game.prototype.sprite = function(opts) {
+five.Game.prototype.sprite = function(opts) {
     this.log('sprite request: ' + opts.image);
-    return five.sprite(this, opts);
+    return new five.Sprite(this, opts);
 };
 
-five._Game.prototype.tilemap = function(opts) {
+five.Game.prototype.tilemap = function(opts) {
     this.log('tilemap request: ' + opts.url);
-    return five.tilemap(this, opts);
+    return new five.Tilemap(this, opts);
 };
 
-five._Game.prototype.image = function(opts) {
+five.Game.prototype.image = function(opts) {
     this.log('image request: ' + opts.image);
-    return five.image(this, opts);
+    return new five.Image(this, opts);
 };
 
-five._Game.prototype.itemLoaded = function(item) {
+five.Game.prototype.itemLoaded = function(item) {
     // item load handler
     this.log('loaded asset: ' + item);
     this.itemsLoaded++;
@@ -531,7 +494,7 @@ five._Game.prototype.itemLoaded = function(item) {
     }
 };
 
-five._Game.prototype.changeState = function(newState) {
+five.Game.prototype.changeState = function(newState) {
     // state changer
     this.log('change state: ' + newState);
     if(!this.stateMachine.states[newState]) return;
@@ -542,24 +505,19 @@ five._Game.prototype.changeState = function(newState) {
     this.stateMachine.state = newState;
 };
 
-five._Game.prototype.addEntity = function(e) {
+five.Game.prototype.addEntity = function(e) {
     this.entities.push(e);
 };
 
-five._Game.prototype.removeEntity = function(e) {
+five.Game.prototype.removeEntity = function(e) {
     this.entities = this.entities.filter(function(i) {
         return e != i;
     });
 };
 
-five.image = function(game, opts) {
-    // factory
-    return new five._Image(game, opts);
-};
-
-five._Image = function(game, opts) {
+five.Image = function(game, opts) {
     this.game = game;
-    this.sheet = five.spriteSheet(game, {
+    this.sheet = new five.SpriteSheet(game, {
         image: opts.image
     });
     this.sheet.on('load', (function() {
@@ -572,7 +530,7 @@ five._Image = function(game, opts) {
     this.alpha = typeof opts.alpha == 'undefined' ? 1 : opts.alpha;
 };
 
-five._Image.prototype.draw = function(opts) {
+five.Image.prototype.draw = function(opts) {
     // draw it at index 0 (the whole image)
     this.sheet.draw({
         index: 0,
@@ -584,7 +542,7 @@ five._Image.prototype.draw = function(opts) {
 };
 
 // the keyboard object is an emitter
-five.keyboard = five.emitter();
+five.keyboard = new five.Emitter();
 // huge map for keycode --> user-friendly name
 five.keyboard.map = {
     65: 'a',
@@ -708,12 +666,7 @@ five.keyboard.isDown = function(name) {
     return this.active.indexOf(name) > -1;
 };
 
-five.logger = function(game, debug) {
-    // factory
-    return new five._Logger(game, debug);
-};
-
-five._Logger = function(game, opts) {
+five.Logger = function(game, opts) {
     // we need the game to draw the log
     this.game = game;
     // debug=true: log to console and canvas
@@ -724,12 +677,12 @@ five._Logger = function(game, opts) {
     // monospace font; this is a log!
     this.font = game.font('monospace');
     // what color?
-    this.color = opts.color || five.color(80, 80, 80);
+    this.color = opts.color || new five.Color(80, 80, 80);
     // messages in log
     this.msgs = [];
 };
 
-five._Logger.prototype.log = function(msg) {
+five.Logger.prototype.log = function(msg) {
     // add timestamp if necessary
     if(this.timestamp) msg = '[' + Date.now() + '] ' + msg;
     // some browsers don't have console
@@ -749,7 +702,7 @@ five._Logger.prototype.log = function(msg) {
     }
 };
 
-five._Logger.prototype.warn = function(msg) {
+five.Logger.prototype.warn = function(msg) {
     // the console will put 'warning: ' for us
     if(this.debug) msg = 'warning: ' + msg;
     if(this.timestamp) msg = '[' + Date.now() + '] ' + msg;
@@ -768,14 +721,14 @@ five._Logger.prototype.warn = function(msg) {
     }
 };
 
-five._Logger.prototype.draw = function() {
+five.Logger.prototype.draw = function() {
     // y position for top of log
     var sy = this.game.height - this.msgs.length * 14;
     this.msgs.forEach(function(m, i) {
         // y position for this message
         var y = i * 14 + sy;
         this.font.draw({
-            location: five.point(0, y),
+            location: new five.Point(0, y),
             color: this.color,
             baseline: 'top',
             alignment: 'left',
@@ -786,16 +739,12 @@ five._Logger.prototype.draw = function() {
     }, this);
 };
 
-five._Logger.prototype.flush = function() {
+five.Logger.prototype.flush = function() {
     // flush the log
     this.msgs = [];
 };
 
-five.mouse = function(game) {
-    return new five._Mouse(game);
-};
-
-five._Mouse = function(game) {
+five.Mouse = function(game) {
     this.canvas = game.canvas;
     this.game = game;
     this.x = 0;
@@ -836,36 +785,31 @@ five._Mouse = function(game) {
     }.bind(this));
 };
 
-five._Mouse.prototype = five.emitter();
-five._Mouse.prototype.constructor = five._Mouse;
+five.Mouse.prototype = new five.Emitter();
+five.Mouse.prototype.constructor = five.Mouse;
 
-five.point = function(x, y) {
-    // factory
-    return new five._Point(x, y);
-};
-
-five._Point = function(x, y) {
+five.Point = function(x, y) {
     this.x = x;
     this.y = y;
 };
 
-five._Point.prototype.distanceTo = function(p) {
+five.Point.prototype.distanceTo = function(p) {
     // length of the delta
     return this.delta(p).length;
 };
 
-five._Point.prototype.delta = function(p) {
+five.Point.prototype.delta = function(p) {
     // delta between two points
-    return five.delta(this.x - p.x, this.y - p.y);
+    return new five.Delta(this.x - p.x, this.y - p.y);
 };
 
-five._Point.prototype.add = function(d) {
+five.Point.prototype.add = function(d) {
     // add it to this point as a delta or a vector
-    if(d instanceof five._Vector) d = d.delta;
-    return five.point(this.x + d.dx, this.y + d.dy);
+    if(d instanceof five.Vector) d = d.delta;
+    return new five.Point(this.x + d.dx, this.y + d.dy);
 };
 
-five._Point.prototype.toString = function() {
+five.Point.prototype.toString = function() {
     return '(' + this.x + ', ' + this.y + ')';
 };
 
@@ -929,12 +873,7 @@ if(!isNode) {
     };
 }
 
-five.rect = function(loc, size) {
-    // factory
-    return new five._Rect(loc, size);
-};
-
-five._Rect = function(loc, size) {
+five.Rect = function(loc, size) {
     this.x = loc.x;
     this.y = loc.y;
     this.w = size.w;
@@ -942,61 +881,51 @@ five._Rect = function(loc, size) {
 };
 
 // center point getter
-Object.defineProperty(five._Rect.prototype, 'center', {
+Object.defineProperty(five.Rect.prototype, 'center', {
     get: function() {
-        return five.point(this.x + this.w / 2, this.y + this.h / 2);
+        return new five.Point(this.x + this.w / 2, this.y + this.h / 2);
     }
 });
 
 // diagonal size getter
-Object.defineProperty(five._Rect.prototype, 'diagonal', {
+Object.defineProperty(five.Rect.prototype, 'diagonal', {
     get: function() {
-        return five.size(this.w, this.h).diagonal;
+        return new five.Size(this.w, this.h).diagonal;
     }
 });
 
 // four corners getter
-Object.defineProperty(five._Rect.prototype, 'corners', {
+Object.defineProperty(five.Rect.prototype, 'corners', {
     get: function() {
         return [
-            five.point(this.x, this.y),
-            five.point(this.x + this.w, this.y),
-            five.point(this.x + this.w, this.y + this.h),
-            five.point(this.x, this.y + this.h)
+            new five.Point(this.x, this.y),
+            new five.Point(this.x + this.w, this.y),
+            new five.Point(this.x + this.w, this.y + this.h),
+            new five.Point(this.x, this.y + this.h)
         ];
     }
 });
 
-five.size = function(w, h) {
-    // factory
-    return new five._Size(w, h);
-};
-
-five._Size = function(w, h) {
+five.Size = function(w, h) {
     this.w = w;
     this.h = h;
 };
 
 // getter to make into a delta
-Object.defineProperty(five._Size.prototype, 'delta', {
+Object.defineProperty(five.Size.prototype, 'delta', {
     get: function() {
-        return five.delta(this.w, this.h);
+        return new five.Delta(this.w, this.h);
     }
 });
 
 // getter for diagonal length
-Object.defineProperty(five._Size.prototype, 'diagonal', {
+Object.defineProperty(five.Size.prototype, 'diagonal', {
     get: function() {
         return this.delta.length;
     }
 });
 
-five.spriteSheet = function(game, opts) {
-    // factory
-    return new five._SpriteSheet(game, opts);
-};
-
-five._SpriteSheet = function(game, opts) {
+five.SpriteSheet = function(game, opts) {
     this.game = game;
     this.loaded = false;
     // this is another item to load
@@ -1015,10 +944,10 @@ five._SpriteSheet = function(game, opts) {
 };
 
 // sprite sheets are emitters
-five._SpriteSheet.prototype = five.emitter();
-five._SpriteSheet.prototype.constructor = five._SpriteSheet;
+five.SpriteSheet.prototype = new five.Emitter();
+five.SpriteSheet.prototype.constructor = five.SpriteSheet;
 
-five._SpriteSheet.prototype.draw = function(opts) {
+five.SpriteSheet.prototype.draw = function(opts) {
     if(!this.loaded) return;
     // calculate the source x, y, width, and height,
     // and destination x, y, width, and height
@@ -1028,11 +957,11 @@ five._SpriteSheet.prototype.draw = function(opts) {
     var sHeight = this.tileHeight;
     var dx = opts.location.x;
     var dy = opts.location.y;
-    var size = opts.size || five.size(this.tileWidth, this.tileHeight);
+    var size = opts.size || new five.Size(this.tileWidth, this.tileHeight);
     this.game.ctx.save();
     // rotation around the center point
     this.game.ctx.translate(dx + size.w / 2, dy + size.h / 2);
-    this.game.ctx.rotate(five.vector.deg2rad(opts.rotation || 0));
+    this.game.ctx.rotate(five.Vector.deg2rad(opts.rotation || 0));
     this.game.ctx.translate(-(dx + size.w / 2), -(dy + size.h / 2));
     // set the opacity
     this.game.ctx.globalAlpha = typeof opts.opacity == 'undefined' ? 1 : opts.opacity;
@@ -1041,18 +970,13 @@ five._SpriteSheet.prototype.draw = function(opts) {
     this.game.ctx.restore();
 };
 
-five._SpriteSheet.prototype.toString = function() {
+five.SpriteSheet.prototype.toString = function() {
     return this.img.src;
 };
 
-five.sprite = function(game, opts) {
-    // factory
-    return new five._Sprite(game, opts);
-};
-
-five._Sprite = function(game, opts) {
+five.Sprite = function(game, opts) {
     this.game = game;
-    this.sheet = five.spriteSheet(game, {
+    this.sheet = new five.SpriteSheet(game, {
         image: opts.image,
         tileSize: opts.tileSize,
         game: game
@@ -1077,14 +1001,14 @@ five._Sprite = function(game, opts) {
 };
 
 // sprites are emitters
-five._Sprite.prototype = five.emitter();
-five._Sprite.prototype.constructor = five._Sprite;
+five.Sprite.prototype = new five.Emitter();
+five.Sprite.prototype.constructor = five.Sprite;
 
-five._Sprite.prototype.addAnimation = function(name, a) {
+five.Sprite.prototype.addAnimation = function(name, a) {
     this.animations[name] = a;
 };
 
-five._Sprite.prototype.play = function(name, dur, iters) {
+five.Sprite.prototype.play = function(name, dur, iters) {
     // set the current animation
     this.animation = {
         name: name,
@@ -1095,7 +1019,7 @@ five._Sprite.prototype.play = function(name, dur, iters) {
     this.counter = 0;
 };
 
-five._Sprite.prototype.update = function(dt) {
+five.Sprite.prototype.update = function(dt) {
     // no animation? return!
     if(this.animation === null) return;
     var anim = this.animations[this.animation.name];
@@ -1120,10 +1044,10 @@ five._Sprite.prototype.update = function(dt) {
     this.index = i;
 };
 
-five._Sprite.prototype.draw = function() {
+five.Sprite.prototype.draw = function() {
     // draw the sprite sheet
     this.sheet.draw({
-        location: five.point(this.x, this.y),
+        location: new five.Point(this.x, this.y),
         index: this.index,
         size: this.size,
         opacity: this.opacity,
@@ -1131,29 +1055,19 @@ five._Sprite.prototype.draw = function() {
     });
 };
 
-five.stateMachine = function(states, state) {
-    // factory
-    return new five._StateMachine(states, state);
-};
-
-five._StateMachine = function(states, state) {
+five.StateMachine = function(states, state) {
     // states = name of state --> game loop function
     this.states = states;
     this.state = state;
 };
 
-five._StateMachine.prototype.run = function() {
+five.StateMachine.prototype.run = function() {
     // call the current game loop function
     // with the arguments to this function
     this.states[this.state].apply(null, arguments);
 };
 
-five.tilemap = function(game, opts) {
-    // factory
-    return new five._Tilemap(game, opts);
-};
-
-five._Tilemap = function(game, opts) {
+five.Tilemap = function(game, opts) {
     // another item to load
     game.itemsToLoad++;
     // no layers yet
@@ -1187,9 +1101,9 @@ five._Tilemap = function(game, opts) {
         };
         // multiple tilesets are not supported yet
         data.tilesets.forEach(function(t) {
-            this.sheet = five.spriteSheet(this.fakeGame, {
+            this.sheet = new five.SpriteSheet(this.fakeGame, {
                 image: t.image,
-                tileSize: five.size(t.tilewidth, t.tileheight)
+                tileSize: new five.Size(t.tilewidth, t.tileheight)
             });
         }, this);
         // add all layers
@@ -1217,9 +1131,9 @@ five._Tilemap = function(game, opts) {
     xhr.send();
 };
 
-five._Tilemap.prototype.render = function(loc) {
+five.Tilemap.prototype.render = function(loc) {
     // default location is (0, 0)
-    loc = loc || five.point(0, 0);
+    loc = loc || new five.Point(0, 0);
     // only log renders if prerendering is enabled
     if(this.prerender) this.game.log('render map: ' + this.url);
     // go through all layers
@@ -1242,54 +1156,49 @@ five._Tilemap.prototype.render = function(loc) {
             this.sheet.draw({
                 // 0 is blank, so other indexes are 1-based
                 index: t - 1,
-                location: five.point(Math.round(x), Math.round(y)),
-                size: five.size(this.sheet.tileWidth * this.scaleFactor, this.sheet.tileHeight * this.scaleFactor)
+                location: new five.Point(Math.round(x), Math.round(y)),
+                size: new five.Size(this.sheet.tileWidth * this.scaleFactor, this.sheet.tileHeight * this.scaleFactor)
             });
         }, this);
     }, this);
 };
 
-five._Tilemap.prototype.draw = function(loc) {
+five.Tilemap.prototype.draw = function(loc) {
     // render if not prerendering
     if(!this.prerender) this.render(loc);
     // don't draw if not loaded
     if(!this.loaded) return;
     // default location: (0, 0)
-    loc = loc || five.point(0, 0);
+    loc = loc || new five.Point(0, 0);
     // draw the rendered image
     this.game.ctx.drawImage(this.fakeGame.ctx.canvas, loc.x, loc.y);
 };
 
-five.vector = function(dir, len) {
-    // factory
-    return new five._Vector(dir, len);
-};
-
-five._Vector = function(dir, len) {
+five.Vector = function(dir, len) {
     this.dir = dir;
     this.len = len;
 };
 
 // convert degrees to radians
-five.vector.deg2rad = function(deg) {
+five.Vector.deg2rad = function(deg) {
     return deg / (180 / Math.PI);
 };
 
 // getter for delta
-Object.defineProperty(five._Vector.prototype, 'delta', {
+Object.defineProperty(five.Vector.prototype, 'delta', {
     get: function() {
         // calculate dx and dy
-        return five.delta(
-            Math.round(Math.cos(five.vector.deg2rad(this.dir - 90)) * this.len * 100) / 100,
-            Math.round(Math.sin(five.vector.deg2rad(this.dir - 90)) * this.len * 100) / 100
+        return new five.Delta(
+            Math.round(Math.cos(five.Vector.deg2rad(this.dir - 90)) * this.len * 100) / 100,
+            Math.round(Math.sin(five.Vector.deg2rad(this.dir - 90)) * this.len * 100) / 100
         );
     }
 });
 
-five._Vector.prototype.add = function(otherVec) {
+five.Vector.prototype.add = function(otherVec) {
     var d1 = this.delta,
         d2 = otherVec.delta;
-    return five.delta(d1.dx + d2.dx, d1.dy + d2.dy).vector;
+    return new five.Delta(d1.dx + d2.dx, d1.dy + d2.dy).vector;
 };
 
     // return the library

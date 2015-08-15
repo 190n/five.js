@@ -3,6 +3,6 @@ var assert = require('assert'),
 
 suite('five.size', function() {
     test('diagonal algorithm', function() {
-        assert(five.size(4, 3).diagonal == 5);
+        assert(new five.Size(4, 3).diagonal == 5);
     });
 });

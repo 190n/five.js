@@ -1,8 +1,8 @@
 function Rock(game, size, location, vector) {
     var image = 'rock-' + (size == Rock.SMALL ? 'small' : (size == Rock.MEDIUM ? 'medium' : 'big')) + '.png';
-    five._Entity.call(this, game, {
+    five.Entity.call(this, game, {
         image: image,
-        tileSize: five.size(size, size),
+        tileSize: new five.Size(size, size),
         location: location,
         vector: vector,
         animations: {
@@ -13,11 +13,11 @@ function Rock(game, size, location, vector) {
         rotation: Math.round(Math.random() * 360)
     });
     this.rockSize = size;
-    this.circ = five.circ(five.point(this.x + this.rockSize / 2, this.y + this.rockSize / 2), this.rockSize / 2);
+    this.circ = new five.Circ(new five.Point(this.x + this.rockSize / 2, this.y + this.rockSize / 2), this.rockSize / 2);
     this.play('idle', 1000, 0);
 }
 
-Rock.prototype = Object.create(five._Entity.prototype);
+Rock.prototype = Object.create(five.Entity.prototype);
 Rock.prototype.constructor = Rock;
 
 Rock.SMALL = 24;
@@ -36,9 +36,9 @@ Rock.prototype.update = function(dt) {
     if(this.x < -this.rockSize) this.x = this.game.width;
     if(this.y > this.game.height) this.y = -this.size.h;
     if(this.y < -this.size.h) this.y = this.game.height;
-    this.circ = five.circ(five.point(this.x + this.rockSize / 2, this.y + this.rockSize / 2), this.rockSize / 2);
+    this.circ = new five.Circ(new five.Point(this.x + this.rockSize / 2, this.y + this.rockSize / 2), this.rockSize / 2);
     bullets.forEach(function(b) {
-        if(five.collider.circVsPoint(this.circ, five.point(b.x + 1, b.y + 1))) {
+        if(five.collider.circVsPoint(this.circ, new five.Point(b.x + 1, b.y + 1))) {
             this.killer = b;
             this.kill();
             b.kill();
@@ -50,21 +50,21 @@ Rock.prototype.update = function(dt) {
 Rock.prototype.die = function() {
     if(this.killer instanceof Bullet && this.game.stateMachine.state == 'playing') score += Rock.SCORING[this.rockSize];
     if(!this.killer.vector) this.killer.vector = this.killer.delta.vector;
-    var newRockVector = five.vector(this.killer.vector.dir, this.killer.vector.len * Bullet.ROCK_EFFECT).add(this.vector),
+    var newRockVector = new five.Vector(this.killer.vector.dir, this.killer.vector.len * Bullet.ROCK_EFFECT).add(this.vector),
         r1,
         r2;
     switch(this.rockSize) {
         case Rock.BIG:
-            r1 = new Rock(this.game, Rock.MEDIUM, five.point(this.x + ((Math.random() * 2 - 1) * Rock.LOCATION_DEVIATION), this.y + ((Math.random() * 2 - 1) * Rock.LOCATION_DEVIATION)),
-                five.vector(newRockVector.dir + ((Math.random() * 2 - 1) * Rock.DIRECTION_DEVIATION), newRockVector.len));
-            r2 = new Rock(this.game, Rock.MEDIUM, five.point(this.x + ((Math.random() * 2 - 1) * Rock.LOCATION_DEVIATION), this.y + ((Math.random() * 2 - 1) * Rock.LOCATION_DEVIATION)),
-                five.vector(newRockVector.dir + ((Math.random() * 2 - 1) * Rock.DIRECTION_DEVIATION), newRockVector.len));
+            r1 = new Rock(this.game, Rock.MEDIUM, new five.Point(this.x + ((Math.random() * 2 - 1) * Rock.LOCATION_DEVIATION), this.y + ((Math.random() * 2 - 1) * Rock.LOCATION_DEVIATION)),
+                new five.Vector(newRockVector.dir + ((Math.random() * 2 - 1) * Rock.DIRECTION_DEVIATION), newRockVector.len));
+            r2 = new Rock(this.game, Rock.MEDIUM, new five.Point(this.x + ((Math.random() * 2 - 1) * Rock.LOCATION_DEVIATION), this.y + ((Math.random() * 2 - 1) * Rock.LOCATION_DEVIATION)),
+                new five.Vector(newRockVector.dir + ((Math.random() * 2 - 1) * Rock.DIRECTION_DEVIATION), newRockVector.len));
             break;
         case Rock.MEDIUM:
-            r1 = new Rock(this.game, Rock.SMALL, five.point(this.x + ((Math.random() * 2 - 1) * Rock.LOCATION_DEVIATION), this.y + ((Math.random() * 2 - 1) * Rock.LOCATION_DEVIATION)),
-                five.vector(newRockVector.dir + ((Math.random() * 2 - 1) * Rock.DIRECTION_DEVIATION), newRockVector.len));
-            r2 = new Rock(this.game, Rock.SMALL, five.point(this.x + ((Math.random() * 2 - 1) * Rock.LOCATION_DEVIATION), this.y + ((Math.random() * 2 - 1) * Rock.LOCATION_DEVIATION)),
-                five.vector(newRockVector.dir + ((Math.random() * 2 - 1) * Rock.DIRECTION_DEVIATION), newRockVector.len));
+            r1 = new Rock(this.game, Rock.SMALL, new five.Point(this.x + ((Math.random() * 2 - 1) * Rock.LOCATION_DEVIATION), this.y + ((Math.random() * 2 - 1) * Rock.LOCATION_DEVIATION)),
+                new five.Vector(newRockVector.dir + ((Math.random() * 2 - 1) * Rock.DIRECTION_DEVIATION), newRockVector.len));
+            r2 = new Rock(this.game, Rock.SMALL, new five.Point(this.x + ((Math.random() * 2 - 1) * Rock.LOCATION_DEVIATION), this.y + ((Math.random() * 2 - 1) * Rock.LOCATION_DEVIATION)),
+                new five.Vector(newRockVector.dir + ((Math.random() * 2 - 1) * Rock.DIRECTION_DEVIATION), newRockVector.len));
             break;
     }
     if(this.rockSize != Rock.SMALL) {

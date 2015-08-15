@@ -6,8 +6,8 @@ var game,
     hasSeenHelp = false;
 
 window.addEventListener('load', function() {
-    game = five.game({
-        size: five.size(768, 480),
+    game = new five.Game({
+        size: new five.Size(768, 480),
         target: document.getElementById('canvas'),
         debug: true,
         showFps: true,
@@ -15,9 +15,9 @@ window.addEventListener('load', function() {
             playing: gameLoopPlaying
         },
         state: 'playing',
-        fpsColor: five.color(0, 0, 80)
+        fpsColor: new five.Color(0, 0, 80)
     });
-    loc = five.point(0, 0);
+    loc = new five.Point(0, 0);
     font = game.font('sans-serif');
     map = game.tilemap({
         url: 'map.json',
@@ -54,8 +54,8 @@ function gameLoopPlaying(dt) {
     }
     if(!hasSeenHelp) {
         font.draw({
-            location: five.point(384, 80),
-            color: five.color(0, 0, 0),
+            location: new five.Point(384, 80),
+            color: new five.Color(0, 0, 0),
             weight: 'bold',
             size: 24,
             alignment: 'center',
@@ -63,8 +63,8 @@ function gameLoopPlaying(dt) {
             text: 'Use arrow keys to look around.'
         });
         font.draw({
-            location: five.point(384, 128),
-            color: five.color(0, 0, 0),
+            location: new five.Point(384, 128),
+            color: new five.Color(0, 0, 0),
             weight: 'bold',
             size: 24,
             alignment: 'center',

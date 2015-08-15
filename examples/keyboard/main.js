@@ -5,8 +5,8 @@ var game,
     speed = 0.2;
 
 window.addEventListener('load', function() {
-    game = five.game({
-        size: five.size(768, 480),
+    game = new five.Game({
+        size: new five.Size(768, 480),
         target: document.getElementById('canvas'),
         debug: true,
         showFps: true,
@@ -18,8 +18,8 @@ window.addEventListener('load', function() {
     font = game.font('sans-serif');
     sprite = game.sprite({
         image: 'sprite.png',
-        tileSize: five.size(80, 80),
-        location: five.point(344, 200)
+        tileSize: new five.Size(80, 80),
+        location: new five.Point(344, 200)
     });
     sprite.addAnimation('idle', [
         0
@@ -39,20 +39,20 @@ window.addEventListener('load', function() {
 function gameLoopPlaying(dt) {
     if(!hasSeenHelp) {
         font.draw({
-            location: five.point(384, 80),
+            location: new five.Point(384, 80),
             size: 24,
             weight: 'bold',
             text: 'Use arrow keys to move the circle.',
-            color: five.color(0, 0, 0),
+            color: new five.Color(0, 0, 0),
             alignment: 'center',
             baseline: 'middle'
         });
         font.draw({
-            location: five.point(384, 128),
+            location: new five.Point(384, 128),
             size: 24,
             weight: 'bold',
             text: 'Hold <shift> to go faster.',
-            color: five.color(0, 0, 0),
+            color: new five.Color(0, 0, 0),
             alignment: 'center',
             baseline: 'middle'
         });

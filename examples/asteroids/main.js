@@ -3,13 +3,8 @@ var game,
     lastShot,
     bullets = [],
     rocks = [],
-    saucerBullets = [],
     numRocks,
     rockSpeed,
-    bigSaucerSpeed,
-    saucerFireRate,
-    bigSaucerInterval,
-    smallSaucerInterval,
     level = 0,
     levelChangeStart,
     respawnShipStart,
@@ -25,8 +20,8 @@ var game,
 var BULLET_INTERVAL = 200;
 
 window.addEventListener('load', function() {
-    game = five.game({
-        size: five.size(640, 640),
+    game = new five.Game({
+        size: new five.Size(640, 640),
         target: document.getElementById('canvas'),
         states: {
             playing: gameLoopPlaying,
@@ -36,8 +31,8 @@ window.addEventListener('load', function() {
             startScreen: gameLoopStartScreen
         },
         state: 'startScreen',
-        background: five.color(0, 0, 0),
-        fpsColor: five.color(255, 255, 255)
+        background: new five.Color(0, 0, 0),
+        fpsColor: new five.Color(255, 255, 255)
     });
     lastShot = Date.now();
     smallShipImage = game.image({
@@ -64,28 +59,28 @@ function gameLoopStartScreen() {
     }
     game.updateEntities = false;
     font.draw({
-        location: five.point(320, 320),
+        location: new five.Point(320, 320),
         weight: 'bold',
         size: 80,
-        color: five.color(255, 255, 255),
+        color: new five.Color(255, 255, 255),
         baseline: 'middle',
         alignment: 'center',
         text: 'ASTEROIDS'
     });
     font.draw({
-        location: five.point(320, 384),
+        location: new five.Point(320, 384),
         weight: 'bold',
         size: 30,
-        color: five.color(255, 255, 255),
+        color: new five.Color(255, 255, 255),
         baseline: 'middle',
         alignment: 'center',
         text: 'PRESS ANY KEY TO PLAY'
     });
     font.draw({
-        location: five.point(320, 448),
+        location: new five.Point(320, 448),
         weight: 'bold',
         size: 16,
-        color: five.color(255, 255, 255),
+        color: new five.Color(255, 255, 255),
         baseline: 'middle',
         alignment: 'center',
         text: 'ARROW KEYS TO MOVE, SPACE TO SHOOT, Z FOR HYPERSPACE'
@@ -103,16 +98,12 @@ function gameLoopLevelChange() {
         level++;
         numRocks = level + 3;
         rockSpeed = level * 10 + 90;
-        bigSaucerSpeed = level * 15 + 85;
-        saucerFireRate = Math.round(Math.pow(0.99, level) * 500);
-        bigSaucerInterval = Math.round(Math.pow(0.9, level) * 45000);
-        smallSaucerInterval = Math.round(Math.pow(0.9, level) * 75000);
     }
     font.draw({
-        location: five.point(320, 320),
+        location: new five.Point(320, 320),
         size: 40,
         weight: 'bold',
-        color: five.color(255, 255, 255),
+        color: new five.Color(255, 255, 255),
         baseline: 'middle',
         alignment: 'center',
         text: 'LEVEL ' + level
@@ -121,9 +112,9 @@ function gameLoopLevelChange() {
     if(Date.now() - levelChangeStart >= 1000) {
         for(var i = 0; i < numRocks; i++) {
             var location;
-            if(Math.random() < 0.5) location = five.point(0, Math.round(Math.random() * game.height));
-            else location = five.point(Math.round(Math.random() * game.width), 0);
-            var vector = five.vector(Math.round(Math.random() * 360), rockSpeed);
+            if(Math.random() < 0.5) location = new five.Point(0, Math.round(Math.random() * game.height));
+            else location = new five.Point(Math.round(Math.random() * game.width), 0);
+            var vector = new five.Vector(Math.round(Math.random() * 360), rockSpeed);
             rocks.push(new Rock(game, Rock.BIG, location, vector));
         }
         bullets.forEach(function(b) {
@@ -154,9 +145,6 @@ function gameLoopPlaying() {
     });
     rocks = rocks.filter(function(r) {
         return r.alive;
-    });
-    saucerBullets = saucerBullets.filter(function(sb) {
-        return sb.alive;
     });
     if(ship.dead) {
         ship = null;
@@ -198,14 +186,14 @@ function gameLoopRespawnShip() {
 
 function drawStatus() {
     for(var i = 0, x = 20; i < ships; i++, x += 20) smallShipImage.draw({
-        location: five.point(x, 64)
+        location: new five.Point(x, 64)
     });
     font.draw({
-        location: five.point(20, 20),
+        location: new five.Point(20, 20),
         size: 24,
         text: score,
         weight: 'bold',
-        color: five.color(255, 255, 255),
+        color: new five.Color(255, 255, 255),
         baseline: 'top',
         alignment: 'left'
     });
@@ -218,20 +206,20 @@ function drawStatus() {
 function gameLoopGameOver() {
     if(!gameOverStart) gameOverStart = Date.now();
     font.draw({
-        location: five.point(320, 240),
+        location: new five.Point(320, 240),
         size: 80,
         weight: 'bold',
-        color: five.color(255, 255, 255),
+        color: new five.Color(255, 255, 255),
         baseline: 'middle',
         alignment: 'center',
         text: 'GAME OVER'
     });
     if(Date.now() - gameOverStart >= 1000) {
         font.draw({
-            location: five.point(320, 360),
+            location: new five.Point(320, 360),
             size: 30,
             weight: 'bold',
-            color: five.color(255, 255, 255),
+            color: new five.Color(255, 255, 255),
             baseline: 'middle',
             alignment: 'center',
             text: 'SCORE: ' + score

@@ -1,9 +1,4 @@
-five.spriteSheet = function(game, opts) {
-    // factory
-    return new five._SpriteSheet(game, opts);
-};
-
-five._SpriteSheet = function(game, opts) {
+five.SpriteSheet = function(game, opts) {
     this.game = game;
     this.loaded = false;
     // this is another item to load
@@ -22,10 +17,10 @@ five._SpriteSheet = function(game, opts) {
 };
 
 // sprite sheets are emitters
-five._SpriteSheet.prototype = five.emitter();
-five._SpriteSheet.prototype.constructor = five._SpriteSheet;
+five.SpriteSheet.prototype = new five.Emitter();
+five.SpriteSheet.prototype.constructor = five.SpriteSheet;
 
-five._SpriteSheet.prototype.draw = function(opts) {
+five.SpriteSheet.prototype.draw = function(opts) {
     if(!this.loaded) return;
     // calculate the source x, y, width, and height,
     // and destination x, y, width, and height
@@ -35,11 +30,11 @@ five._SpriteSheet.prototype.draw = function(opts) {
     var sHeight = this.tileHeight;
     var dx = opts.location.x;
     var dy = opts.location.y;
-    var size = opts.size || five.size(this.tileWidth, this.tileHeight);
+    var size = opts.size || new five.Size(this.tileWidth, this.tileHeight);
     this.game.ctx.save();
     // rotation around the center point
     this.game.ctx.translate(dx + size.w / 2, dy + size.h / 2);
-    this.game.ctx.rotate(five.vector.deg2rad(opts.rotation || 0));
+    this.game.ctx.rotate(five.Vector.deg2rad(opts.rotation || 0));
     this.game.ctx.translate(-(dx + size.w / 2), -(dy + size.h / 2));
     // set the opacity
     this.game.ctx.globalAlpha = typeof opts.opacity == 'undefined' ? 1 : opts.opacity;
@@ -48,6 +43,6 @@ five._SpriteSheet.prototype.draw = function(opts) {
     this.game.ctx.restore();
 };
 
-five._SpriteSheet.prototype.toString = function() {
+five.SpriteSheet.prototype.toString = function() {
     return this.img.src;
 };

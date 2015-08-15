@@ -1,5 +1,5 @@
 // the keyboard object is an emitter
-five.keyboard = five.emitter();
+five.keyboard = new five.Emitter();
 // huge map for keycode --> user-friendly name
 five.keyboard.map = {
     65: 'a',

@@ -39,8 +39,8 @@ var game, font;
 
 window.addEventListener('load', function() {
     // create a 768x480 game rendering to our canvas
-    game = five.game({
-        size: five.size(768, 480),
+    game = new five.Game({
+        size: new five.Size(768, 480),
         target: document.getElementById('canvas'),
         showFps: true,
         debug: true,
@@ -63,7 +63,7 @@ function gameLoopPlaying(dt) {
     // draw some text
     font.draw({
         // in the middle
-        location: five.point(384, 240),
+        location: new five.Point(384, 240),
         alignment: 'center',
         baseline: 'middle',
         // bold

@@ -10,7 +10,7 @@ five.collider = {
     circVsCirc: function(c1, c2) {
         // is the distance between their center points
         // less than or equal to the sum of their radii?
-        return five.point(c1.x, c1.y).distanceTo(five.point(c2.x, c2.y)) <= c1.radius + c2.radius;
+        return new five.Point(c1.x, c1.y).distanceTo(new five.Point(c2.x, c2.y)) <= c1.radius + c2.radius;
     },
 
     rectVsPoint: function(r, p) {
@@ -19,6 +19,6 @@ five.collider = {
     },
 
     circVsPoint: function(c, p) {
-        return five.point(c.x, c.y).distanceTo(p) <= c.radius;
+        return new five.Point(c.x, c.y).distanceTo(p) <= c.radius;
     }
 };

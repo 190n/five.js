@@ -3,7 +3,7 @@ var assert = require('assert'),
 
 suite('five.vector', function() {
     test('conversion to delta', function() {
-        var vec = five.vector(135, Math.sqrt(2));
+        var vec = new five.Vector(135, Math.sqrt(2));
         var delta = vec.delta;
         assert(delta.length == Math.sqrt(2));
         assert(delta.dx == delta.dy);

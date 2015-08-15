@@ -7,8 +7,8 @@ var game,
     speed = 0.2;
 
 window.addEventListener('load', function() {
-    game = five.game({
-        size: five.size(768, 480),
+    game = new five.Game({
+        size: new five.Size(768, 480),
         target: document.getElementById('canvas'),
         debug: true,
         showFps: true,
@@ -19,8 +19,8 @@ window.addEventListener('load', function() {
     });
     sprite = game.sprite({
         image: 'sprite.png',
-        tileSize: five.size(64, 64),
-        location: five.point(768, 208)
+        tileSize: new five.Size(64, 64),
+        location: new five.Point(768, 208)
     });
     sprite.addAnimation('forward', [
         0,
@@ -33,8 +33,8 @@ window.addEventListener('load', function() {
     sprite.play('forward', 480, 0);
     cog1 = game.sprite({
         image: 'cog.png',
-        tileSize: five.size(96, 96),
-        location: five.point(64, 64)
+        tileSize: new five.Size(96, 96),
+        location: new five.Point(64, 64)
     });
     cog1.addAnimation('forward', [
         0,
@@ -45,8 +45,8 @@ window.addEventListener('load', function() {
     cog1.play('forward', 500, 0);
     cog2 = game.sprite({
         image: 'cog.png',
-        tileSize: five.size(96, 96),
-        location: five.point(152, 64)
+        tileSize: new five.Size(96, 96),
+        location: new five.Point(152, 64)
     });
     cog2.addAnimation('backward', [
         2,
@@ -58,7 +58,7 @@ window.addEventListener('load', function() {
     cat = game.image({
         image: 'cat.jpg',
         rotation: 0,
-        location: five.point(512, 48)
+        location: new five.Point(512, 48)
     });
     game.start();
 }, false);

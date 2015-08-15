@@ -1,9 +1,4 @@
-five.entity = function(game, opts) {
-    // factory
-    return new five._Entity(game, opts);
-};
-
-five._Entity = function(game, opts) {
+five.Entity = function(game, opts) {
     this.game = game;
     this.x = typeof opts.location == 'undefined' ? 0 : opts.location.x;
     this.y = typeof opts.location == 'undefined' ? 0 : opts.location.y;
@@ -13,11 +8,11 @@ five._Entity = function(game, opts) {
     this.rotation = opts.rotation || 0;
     this.image = opts.image;
     this.boundingBox = typeof opts.boundingBox == 'undefined' ?
-        five.rect(five.point(this.x, this.y), this.size) :
-        five.rect(
+        new five.Rect(new five.Point(this.x, this.y), this.size) :
+        new five.Rect(
             // tweak the bounding box to the user's specification
-            five.point(this.x + opts.boundingBox.x, this.y + opts.boundingBox.y),
-            five.size(this.size.w + opts.boundingBox.w, this.size.h + opts.boundingBox.h)
+            new five.Point(this.x + opts.boundingBox.x, this.y + opts.boundingBox.y),
+            new five.Size(this.size.w + opts.boundingBox.w, this.size.h + opts.boundingBox.h)
         );
     if(opts.delta) {
         this.delta = opts.delta;
@@ -25,12 +20,12 @@ five._Entity = function(game, opts) {
     else if(opts.vector) {
         this.vector = opts.vector;
     }
-    else this.delta = five.delta(0, 0);
+    else this.delta = new five.Delta(0, 0);
     this.sprite = game.sprite({
         image: this.image,
         tileSize: opts.tileSize,
         size: this.size,
-        location: five.point(this.x, this.y),
+        location: new five.Point(this.x, this.y),
         alpha: this.alpha,
         rotation: this.rotation
     });
@@ -47,10 +42,10 @@ five._Entity = function(game, opts) {
 };
 
 // entities are emitters
-five._Entity.prototype = five.emitter();
-five._Entity.prototype.constructor = five._Entity;
+five.Entity.prototype = new five.Emitter();
+five.Entity.prototype.constructor = five.Entity;
 
-five._Entity.prototype._update = function(dt) {
+five.Entity.prototype._update = function(dt) {
     // update sprite
     this.sprite.update(dt);
     // convert vector to delta if we're using vectors
@@ -64,22 +59,22 @@ five._Entity.prototype._update = function(dt) {
     this.sprite.rotation = this.rotation;
 };
 
-five._Entity.prototype.draw = function() {
+five.Entity.prototype.draw = function() {
     // draw sprite
     this.sprite.draw();
 };
 
-five._Entity.prototype.play = function(name, dur, iters) {
+five.Entity.prototype.play = function(name, dur, iters) {
     this.sprite.play(name, dur, iters);
 };
 
-five._Entity.prototype._gameLoopHandler = function(dt) {
+five.Entity.prototype._gameLoopHandler = function(dt) {
     if(typeof this.update == 'function') this.update(dt);
     this._update(dt);
     this.draw();
 };
 
-five._Entity.prototype.kill = function() {
+five.Entity.prototype.kill = function() {
     this.dead = true;
     this.alive = false;
     this.emit('die', this.killer);

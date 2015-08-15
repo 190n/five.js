@@ -2,8 +2,8 @@ var game,
     sprite;
 
 window.addEventListener('load', function() {
-    game = five.game({
-        size: five.size(768, 480),
+    game = new five.Game({
+        size: new five.Size(768, 480),
         target: document.getElementById('canvas'),
         showFps: true,
         states: {
@@ -14,8 +14,8 @@ window.addEventListener('load', function() {
     });
     sprite = game.sprite({
         image: 'sprite.png',
-        tileSize: five.size(80, 80),
-        location: five.point(0, 0),
+        tileSize: new five.Size(80, 80),
+        location: new five.Point(0, 0),
 
     });
     sprite.addAnimation('normal', [

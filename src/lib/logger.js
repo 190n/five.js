@@ -1,9 +1,4 @@
-five.logger = function(game, debug) {
-    // factory
-    return new five._Logger(game, debug);
-};
-
-five._Logger = function(game, opts) {
+five.Logger = function(game, opts) {
     // we need the game to draw the log
     this.game = game;
     // debug=true: log to console and canvas
@@ -14,12 +9,12 @@ five._Logger = function(game, opts) {
     // monospace font; this is a log!
     this.font = game.font('monospace');
     // what color?
-    this.color = opts.color || five.color(80, 80, 80);
+    this.color = opts.color || new five.Color(80, 80, 80);
     // messages in log
     this.msgs = [];
 };
 
-five._Logger.prototype.log = function(msg) {
+five.Logger.prototype.log = function(msg) {
     // add timestamp if necessary
     if(this.timestamp) msg = '[' + Date.now() + '] ' + msg;
     // some browsers don't have console
@@ -39,7 +34,7 @@ five._Logger.prototype.log = function(msg) {
     }
 };
 
-five._Logger.prototype.warn = function(msg) {
+five.Logger.prototype.warn = function(msg) {
     // the console will put 'warning: ' for us
     if(this.debug) msg = 'warning: ' + msg;
     if(this.timestamp) msg = '[' + Date.now() + '] ' + msg;
@@ -58,14 +53,14 @@ five._Logger.prototype.warn = function(msg) {
     }
 };
 
-five._Logger.prototype.draw = function() {
+five.Logger.prototype.draw = function() {
     // y position for top of log
     var sy = this.game.height - this.msgs.length * 14;
     this.msgs.forEach(function(m, i) {
         // y position for this message
         var y = i * 14 + sy;
         this.font.draw({
-            location: five.point(0, y),
+            location: new five.Point(0, y),
             color: this.color,
             baseline: 'top',
             alignment: 'left',
@@ -76,7 +71,7 @@ five._Logger.prototype.draw = function() {
     }, this);
 };
 
-five._Logger.prototype.flush = function() {
+five.Logger.prototype.flush = function() {
     // flush the log
     this.msgs = [];
 };

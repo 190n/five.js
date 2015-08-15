@@ -1,9 +1,4 @@
-five.color = function(r, g, b, a) {
-    // factory
-    return new five._Color(r, g, b, a);
-};
-
-five._Color = function(r, g, b, a) {
+five.Color = function(r, g, b, a) {
     this.r = r;
     this.g = g;
     this.b = b;
@@ -11,10 +6,8 @@ five._Color = function(r, g, b, a) {
     this.a = typeof a == 'undefined' ? 1 : a;
 };
 
-// getter for HTML color string
-Object.defineProperty(five._Color.prototype, 'str', {
-    get: function() {
-        // rgba() format is the easiest to construct here
-        return 'rgba(' + this.r + ', ' + this.g + ', ' + this.b + ', ' + this.a + ')';
-    }
-});
+// function to get CSS string representation
+five.Color.prototype.toString = function() {
+    // rgba() format is the easiest to construct here
+    return 'rgba(' + this.r + ', ' + this.g + ', ' + this.b + ', ' + this.a + ')';
+};

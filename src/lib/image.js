@@ -1,11 +1,6 @@
-five.image = function(game, opts) {
-    // factory
-    return new five._Image(game, opts);
-};
-
-five._Image = function(game, opts) {
+five.Image = function(game, opts) {
     this.game = game;
-    this.sheet = five.spriteSheet(game, {
+    this.sheet = new five.SpriteSheet(game, {
         image: opts.image
     });
     this.sheet.on('load', (function() {
@@ -18,7 +13,7 @@ five._Image = function(game, opts) {
     this.alpha = typeof opts.alpha == 'undefined' ? 1 : opts.alpha;
 };
 
-five._Image.prototype.draw = function(opts) {
+five.Image.prototype.draw = function(opts) {
     // draw it at index 0 (the whole image)
     this.sheet.draw({
         index: 0,

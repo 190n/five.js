@@ -1,24 +1,22 @@
 function Bullet(game, ship) {
-    var loc = five.point(ship.x + 15, ship.y + 15).add(five.vector(ship.rotation, 16)),
-        rot;
-    if(ship instanceof Ship) rot = ship.rotation;
-    else if(ship instanceof SaucerBig) rot = Math.round(Math.random() * 360);
-    five._Entity.call(this, game, {
+    var loc = new five.Point(ship.x + 15, ship.y + 15).add(new five.Vector(ship.rotation, 16)),
+        rot = ship.rotation;
+    five.Entity.call(this, game, {
         image: 'bullet.png',
-        tileSize: five.size(2, 2),
+        tileSize: new five.Size(2, 2),
         location: loc,
         animations: {
             idle: [
                 0
             ]
         },
-        vector: five.vector(rot, ship.delta.length + Bullet.SPEED)
+        vector: new five.Vector(rot, ship.delta.length + Bullet.SPEED)
     });
     this.distanceTraveled = 0;
     this.play('idle', 1000, 0);
 }
 
-Bullet.prototype = Object.create(five._Entity.prototype);
+Bullet.prototype = Object.create(five.Entity.prototype);
 Bullet.prototype.constructor = Bullet;
 
 Bullet.SPEED = 300;

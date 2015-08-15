@@ -1,9 +1,4 @@
-five.game = function(opts) {
-    // factory
-    return new five._Game(opts);
-};
-
-five._Game = function(opts) {
+five.Game = function(opts) {
     this.initTime = Date.now();
     // for the preloader
     this.itemsLoaded = 0;
@@ -21,7 +16,7 @@ five._Game = function(opts) {
     // whether or not we should update entities
     this.updateEntities = true;
     // make a logger
-    this.logger = five.logger(this, {
+    this.logger = new five.Logger(this, {
         debug: opts.debug || false,
         timestamp: opts.debug || false,
         color: opts.fpsColor
@@ -37,9 +32,9 @@ five._Game = function(opts) {
     // precalculate this
     if(this.fps != 'auto') this.delay = 1000 / this.fps;
     // background defaults to white
-    this.background = typeof opts.background == 'undefined' ? '#ffffff': opts.background.str;
+    this.background = typeof opts.background == 'undefined' ? '#ffffff': opts.background.toString();
     // light blue
-    this.loaderColor = opts.loaderColor || five.color(0, 128, 255);
+    this.loaderColor = opts.loaderColor || new five.Color(0, 128, 255);
     this.canvas = opts.target;
     // we absolutely NEED this
     if(!this.canvas) throw new Error('five.game requires a canvas to initialize.');
@@ -49,15 +44,15 @@ five._Game = function(opts) {
     // context object
     this.ctx = this.canvas.getContext('2d');
     // state machine
-    this.stateMachine = five.stateMachine(opts.states, opts.state);
+    this.stateMachine = new five.StateMachine(opts.states, opts.state);
     // fps logger
     this.showFps = opts.showFps || false;
-    this.fpsColor = opts.fpsColor || five.color(80, 80, 80);
+    this.fpsColor = opts.fpsColor || new five.Color(80, 80, 80);
     this.fpsFont = this.font('monospace');
     this.realFps = 0;
     this.fpsGraph = [];
     // create mouse tracker
-    this.mouse = five.mouse(this);
+    this.mouse = new five.Mouse(this);
     for(var i = 0; i < 80; i++) this.fpsGraph.push(0);
     // log initialization
     this.log('INIT');
@@ -71,10 +66,10 @@ five._Game = function(opts) {
 };
 
 // games are emitters
-five._Game.prototype = five.emitter();
-five._Game.prototype.constructor = five._Game;
+five.Game.prototype = new five.Emitter();
+five.Game.prototype.constructor = five.Game;
 
-five._Game.prototype._gameLoop = function() {
+five.Game.prototype._gameLoop = function() {
     var now = Date.now();
     // next frame
     if(this.fps == 'auto') requestAnimationFrame(this._gameLoop.bind(this));
@@ -96,7 +91,7 @@ five._Game.prototype._gameLoop = function() {
         if(this.showFps) {
             // fps
             this.fpsFont.draw({
-                location: five.point(this.width, this.height),
+                location: new five.Point(this.width, this.height),
                 color: this.fpsColor,
                 baseline: 'bottom',
                 alignment: 'right',
@@ -107,11 +102,11 @@ five._Game.prototype._gameLoop = function() {
             // fps graph
             var sx = this.width - 160;
             this.ctx.save();
-            this.ctx.fillStyle = five.color(
+            this.ctx.fillStyle = new five.Color(
                 this.fpsColor.r * 1.5 > 255 ? 255 : this.fpsColor.r * 1.5,
                 this.fpsColor.g * 1.5 > 255 ? 255 : this.fpsColor.g * 1.5,
                 this.fpsColor.b * 1.5 > 255 ? 255 : this.fpsColor.b * 1.5
-            ).str;
+            ).toString();
             this.ctx.beginPath();
             this.fpsGraph.forEach(function(n, i) {
                 this.ctx.fillRect(sx + i, this.height - n / 80 * 48, 1, n / 80 * 48);
@@ -131,7 +126,7 @@ five._Game.prototype._gameLoop = function() {
             this.loaded = true;
         }
         // loading animation
-        this.ctx.strokeStyle = this.loaderColor.str;
+        this.ctx.strokeStyle = this.loaderColor.toString();
         var rad = (this.loaderInner + this.loaderOuter) / 2;
         var thickness = this.loaderOuter - this.loaderInner;
         this.ctx.lineWidth = thickness;
@@ -173,7 +168,7 @@ five._Game.prototype._gameLoop = function() {
     }
 };
 
-five._Game.prototype.start = function() {
+five.Game.prototype.start = function() {
     this.log('start game');
     this.startTime = Date.now();
     this.lastUpdate = Date.now();
@@ -182,7 +177,7 @@ five._Game.prototype.start = function() {
     this._gameLoop();
 };
 
-five._Game.prototype.log = function(msg) {
+five.Game.prototype.log = function(msg) {
     // it sounds weird, but the logger might not exist when we're logging some messages
     // this fixes that problem
     if(!this.logger) return this.backlog.push({
@@ -198,7 +193,7 @@ five._Game.prototype.log = function(msg) {
     this.logger.log(msg);
 };
 
-five._Game.prototype.warn = function(msg) {
+five.Game.prototype.warn = function(msg) {
     // see line 160
     if(!this.logger) return this.backlog.push({
         message: msg,
@@ -212,32 +207,32 @@ five._Game.prototype.warn = function(msg) {
     this.logger.warn(msg);
 };
 
-five._Game.prototype.flushLog = function() {
+five.Game.prototype.flushLog = function() {
     this.logger.flush();
     this.log('flush log');
 };
 
-five._Game.prototype.font = function(name) {
+five.Game.prototype.font = function(name) {
     this.log('font request: ' + name);
-    return five.font(this, name);
+    return new five.Font(this, name);
 };
 
-five._Game.prototype.sprite = function(opts) {
+five.Game.prototype.sprite = function(opts) {
     this.log('sprite request: ' + opts.image);
-    return five.sprite(this, opts);
+    return new five.Sprite(this, opts);
 };
 
-five._Game.prototype.tilemap = function(opts) {
+five.Game.prototype.tilemap = function(opts) {
     this.log('tilemap request: ' + opts.url);
-    return five.tilemap(this, opts);
+    return new five.Tilemap(this, opts);
 };
 
-five._Game.prototype.image = function(opts) {
+five.Game.prototype.image = function(opts) {
     this.log('image request: ' + opts.image);
-    return five.image(this, opts);
+    return new five.Image(this, opts);
 };
 
-five._Game.prototype.itemLoaded = function(item) {
+five.Game.prototype.itemLoaded = function(item) {
     // item load handler
     this.log('loaded asset: ' + item);
     this.itemsLoaded++;
@@ -247,7 +242,7 @@ five._Game.prototype.itemLoaded = function(item) {
     }
 };
 
-five._Game.prototype.changeState = function(newState) {
+five.Game.prototype.changeState = function(newState) {
     // state changer
     this.log('change state: ' + newState);
     if(!this.stateMachine.states[newState]) return;
@@ -258,11 +253,11 @@ five._Game.prototype.changeState = function(newState) {
     this.stateMachine.state = newState;
 };
 
-five._Game.prototype.addEntity = function(e) {
+five.Game.prototype.addEntity = function(e) {
     this.entities.push(e);
 };
 
-five._Game.prototype.removeEntity = function(e) {
+five.Game.prototype.removeEntity = function(e) {
     this.entities = this.entities.filter(function(i) {
         return e != i;
     });

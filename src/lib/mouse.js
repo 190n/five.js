@@ -1,8 +1,4 @@
-five.mouse = function(game) {
-    return new five._Mouse(game);
-};
-
-five._Mouse = function(game) {
+five.Mouse = function(game) {
     this.canvas = game.canvas;
     this.game = game;
     this.x = 0;
@@ -43,5 +39,5 @@ five._Mouse = function(game) {
     }.bind(this));
 };
 
-five._Mouse.prototype = five.emitter();
-five._Mouse.prototype.constructor = five._Mouse;
+five.Mouse.prototype = new five.Emitter();
+five.Mouse.prototype.constructor = five.Mouse;

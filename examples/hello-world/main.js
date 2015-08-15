@@ -6,8 +6,8 @@ var game,
     speed = 36;
 
 window.addEventListener('load', function() {
-    game = five.game({
-        size: five.size(768, 480),
+    game = new five.Game({
+        size: new five.Size(768, 480),
         target: document.getElementById('canvas'),
         showFps: true,
         states: {
@@ -22,7 +22,7 @@ window.addEventListener('load', function() {
 
 function gameLoopPlaying(dt) {
     font.draw({
-        location: five.point(384, 240),
+        location: new five.Point(384, 240),
         weight: 'bold',
         baseline: 'middle',
         alignment: 'center',

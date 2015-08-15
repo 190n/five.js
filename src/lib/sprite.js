@@ -1,11 +1,6 @@
-five.sprite = function(game, opts) {
-    // factory
-    return new five._Sprite(game, opts);
-};
-
-five._Sprite = function(game, opts) {
+five.Sprite = function(game, opts) {
     this.game = game;
-    this.sheet = five.spriteSheet(game, {
+    this.sheet = new five.SpriteSheet(game, {
         image: opts.image,
         tileSize: opts.tileSize,
         game: game
@@ -30,14 +25,14 @@ five._Sprite = function(game, opts) {
 };
 
 // sprites are emitters
-five._Sprite.prototype = five.emitter();
-five._Sprite.prototype.constructor = five._Sprite;
+five.Sprite.prototype = new five.Emitter();
+five.Sprite.prototype.constructor = five.Sprite;
 
-five._Sprite.prototype.addAnimation = function(name, a) {
+five.Sprite.prototype.addAnimation = function(name, a) {
     this.animations[name] = a;
 };
 
-five._Sprite.prototype.play = function(name, dur, iters) {
+five.Sprite.prototype.play = function(name, dur, iters) {
     // set the current animation
     this.animation = {
         name: name,
@@ -48,7 +43,7 @@ five._Sprite.prototype.play = function(name, dur, iters) {
     this.counter = 0;
 };
 
-five._Sprite.prototype.update = function(dt) {
+five.Sprite.prototype.update = function(dt) {
     // no animation? return!
     if(this.animation === null) return;
     var anim = this.animations[this.animation.name];
@@ -73,10 +68,10 @@ five._Sprite.prototype.update = function(dt) {
     this.index = i;
 };
 
-five._Sprite.prototype.draw = function() {
+five.Sprite.prototype.draw = function() {
     // draw the sprite sheet
     this.sheet.draw({
-        location: five.point(this.x, this.y),
+        location: new five.Point(this.x, this.y),
         index: this.index,
         size: this.size,
         opacity: this.opacity,

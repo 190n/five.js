@@ -1,9 +1,4 @@
-five.tilemap = function(game, opts) {
-    // factory
-    return new five._Tilemap(game, opts);
-};
-
-five._Tilemap = function(game, opts) {
+five.Tilemap = function(game, opts) {
     // another item to load
     game.itemsToLoad++;
     // no layers yet
@@ -37,9 +32,9 @@ five._Tilemap = function(game, opts) {
         };
         // multiple tilesets are not supported yet
         data.tilesets.forEach(function(t) {
-            this.sheet = five.spriteSheet(this.fakeGame, {
+            this.sheet = new five.SpriteSheet(this.fakeGame, {
                 image: t.image,
-                tileSize: five.size(t.tilewidth, t.tileheight)
+                tileSize: new five.Size(t.tilewidth, t.tileheight)
             });
         }, this);
         // add all layers
@@ -67,9 +62,9 @@ five._Tilemap = function(game, opts) {
     xhr.send();
 };
 
-five._Tilemap.prototype.render = function(loc) {
+five.Tilemap.prototype.render = function(loc) {
     // default location is (0, 0)
-    loc = loc || five.point(0, 0);
+    loc = loc || new five.Point(0, 0);
     // only log renders if prerendering is enabled
     if(this.prerender) this.game.log('render map: ' + this.url);
     // go through all layers
@@ -92,20 +87,20 @@ five._Tilemap.prototype.render = function(loc) {
             this.sheet.draw({
                 // 0 is blank, so other indexes are 1-based
                 index: t - 1,
-                location: five.point(Math.round(x), Math.round(y)),
-                size: five.size(this.sheet.tileWidth * this.scaleFactor, this.sheet.tileHeight * this.scaleFactor)
+                location: new five.Point(Math.round(x), Math.round(y)),
+                size: new five.Size(this.sheet.tileWidth * this.scaleFactor, this.sheet.tileHeight * this.scaleFactor)
             });
         }, this);
     }, this);
 };
 
-five._Tilemap.prototype.draw = function(loc) {
+five.Tilemap.prototype.draw = function(loc) {
     // render if not prerendering
     if(!this.prerender) this.render(loc);
     // don't draw if not loaded
     if(!this.loaded) return;
     // default location: (0, 0)
-    loc = loc || five.point(0, 0);
+    loc = loc || new five.Point(0, 0);
     // draw the rendered image
     this.game.ctx.drawImage(this.fakeGame.ctx.canvas, loc.x, loc.y);
 };
