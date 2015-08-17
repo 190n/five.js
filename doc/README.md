@@ -1,5 +1,5 @@
 five.js - Documentation
 =======================
 
-* [API Documentation](api/)
-* [Tutorials](tut/)
+* [API Documentation](api/README.md)
+* [Tutorials](tut/README.md)
