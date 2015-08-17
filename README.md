@@ -13,7 +13,6 @@ bower install --save five.js
 With npm:
 ```sh
 npm i -S five.js
-cp node_modules/five.js/dist/five.min.js . # move to current directory
 ```
 
 Directly:
