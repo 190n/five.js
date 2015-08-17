@@ -1,6 +1,6 @@
 // base definition
 var five = {
-    version: '0.1.0',
+    version: '0.1.1',
     // canvasSupport:
     // 0 = no support
     // 0.5 = basic support but no text
