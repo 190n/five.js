@@ -3,11 +3,13 @@ module.exports = function(grunt) {
         'grunt-contrib-uglify',
         'grunt-contrib-concat',
         'grunt-contrib-jshint',
-        'grunt-cafe-mocha'
+        'grunt-cafe-mocha',
+        'grunt-jsdoc'
     ].forEach(grunt.loadNpmTasks, grunt);
 
     grunt.initConfig({
         pkg: grunt.file.readJSON('package.json'),
+
         uglify: {
             options: {
                 banner: '// five.js library v<%= pkg.version %>\n' +
@@ -19,6 +21,7 @@ module.exports = function(grunt) {
                 dest: 'dist/five.min.js'
             }
         },
+
         concat: {
             options: {
                 separator: '\n\n',
@@ -31,11 +34,13 @@ module.exports = function(grunt) {
                 dest: 'dist/five.js'
             }
         },
+
         jshint: {
             source: ['src/five.js', 'src/lib/*.js'],
             examples: 'examples/**/*.js',
             qa: ['test/*.js', 'Gruntfile.js']
         },
+
         cafemocha: {
             all: {
                 src: 'test/*.js',
@@ -44,10 +49,19 @@ module.exports = function(grunt) {
                     reporter: 'progress'
                 }
             }
+        },
+
+        jsdoc: {
+            dist: {
+                src: ['src/five.js', 'src/lib/*.js'],
+                options: {
+                    destination: 'doc'
+                }
+            }
         }
     });
 
-    grunt.registerTask('build', ['concat', 'uglify']);
+    grunt.registerTask('build', ['concat', 'uglify', 'jsdoc']);
     grunt.registerTask('lint', ['jshint']);
     grunt.registerTask('test', ['cafemocha']);
     grunt.registerTask('qa', ['lint', 'test']);

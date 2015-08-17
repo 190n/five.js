@@ -1,6 +1,6 @@
-// five.js library v0.1.0
+// five.js library v0.1.1
 // licensed under LGPL 3.0 license
-// built 2015-08-14
+// built 2015-08-17
 
 // in case the library before this didn't end with a semicolon
 ;
@@ -14,8 +14,16 @@
 }).call(this, (function(isNode) {
 
 // base definition
+/**
+* Main library namespace.
+* @namespace
+* @global
+* @exports five
+* @prop {string} version - Library version.
+* @prop {number} canvasSupport - Canvas support. 0: no support. 0.5: basic support but no text. 1: full support.
+*/
 var five = {
-    version: '0.1.0',
+    version: '0.1.1',
     // canvasSupport:
     // 0 = no support
     // 0.5 = basic support but no text
@@ -26,23 +34,34 @@ var five = {
 if(five.canvasSupport == 0.5) console.warn('No canvas text support.');
 if(!five.canvasSupport) throw new Error('No canvas support.');
 
+/**
+* Object to represent a circle.
+* @class
+* @param {five.Point} loc - Center of the circle.
+* @param {number} rad - Radius of the circle.
+*/
 five.Circ = function(loc, rad) {
     // position
+    /** @var {number} */
     this.x = loc.x;
+    /** @var {number} */
     this.y = loc.y;
     // radius
+    /** @var {number} */
     this.radius = rad;
 };
 
-// getter for boundingBox
-Object.defineProperty(five.Circ.prototype, 'boundingBox', {
-    get: function() {
-        return new five.Rect(
-            new five.Point(this.x - this.radius, this.y - this.radius),
-            new five.Size(this.radius * 2, this.radius * 2)
-        );
-    }
-});
+/**
+* Returns the bounding box of a circle.
+* @namepath Circ#boundingBox
+* @returns five.Rect
+*/
+five.Circ.prototype.boundingBox = function() {
+    return new five.Rect(
+        new five.Point(this.x - this.radius, this.y - this.radius),
+        new five.Size(this.radius * 2, this.radius * 2)
+    );
+};
 
 five.collider = {
     rectVsRect: function(r1, r2) {
