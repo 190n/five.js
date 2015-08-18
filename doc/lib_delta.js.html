@@ -2,7 +2,7 @@
 <html lang="en">
 <head>
     <meta charset="utf-8">
-    <title>JSDoc: Source: five.js</title>
+    <title>JSDoc: Source: lib/delta.js</title>
 
     <script src="scripts/prettify/prettify.js"> </script>
     <script src="scripts/prettify/lang-css.js"> </script>
@@ -17,7 +17,7 @@
 
 <div id="main">
 
-    <h1 class="page-title">Source: five.js</h1>
+    <h1 class="page-title">Source: lib/delta.js</h1>
 
     
 
@@ -26,26 +26,44 @@
     
     <section>
         <article>
-            <pre class="prettyprint source linenums"><code>// base definition
-/**
-* Main library namespace.
-* @namespace
-* @global
-* @exports five
-* @prop {String} version - Library version.
-* @prop {Number} canvasSupport - Canvas support. 0: no support. 0.5: basic support but no text. 1: full support.
+            <pre class="prettyprint source linenums"><code>/**
+* Object to represent a dx/dy pair.
+* @class
+* @param {Number} dx - Delta X.
+* @param {Number} dy - Delta Y.
 */
-var five = {
-    version: '0.1.1',
-    // canvasSupport:
-    // 0 = no support
-    // 0.5 = basic support but no text
-    // 1 = full support
-    canvasSupport: isNode ? 1 : !!this.CanvasRenderingContext2D / 2 + !!this.TextMetrics / 2
+five.Delta = function(dx, dy) {
+    /** @var {Number} - Delta X. */
+    this.dx = dx;
+    /** @var {Number} - Delta Y. */
+    this.dy = dy;
 };
 
-if(five.canvasSupport == 0.5) console.warn('No canvas text support.');
-if(!five.canvasSupport) throw new Error('No canvas support.');</code></pre>
+/**
+* Get the length of a delta.
+* @returns {Number}
+*/
+five.Delta.prototype.length = function() {
+    // Pythagorean theorem
+    return Math.sqrt(Math.pow(this.dx, 2) + Math.pow(this.dy, 2));
+};
+
+/**
+* Convert a delta to a vector.
+* @returns {five.Vector}
+*/
+five.Delta.prototype.toVector = function() {
+    return new five.Vector(Math.atan2(this.dy, this.dx) * (180 / Math.PI) + 90, this.length);
+};
+
+/**
+* Add to another delta.
+* @param {five.Delta} otherDelta - The other delta to add.
+* @returns {five.Delta}
+*/
+five.Delta.prototype.add = function(otherDelta) {
+    return new five.Delta(this.dx + otherDelta.dx, this.dy + otherDelta.dy);
+};</code></pre>
         </article>
     </section>
 

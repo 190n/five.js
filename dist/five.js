@@ -1,6 +1,6 @@
 // five.js library v0.1.1
 // licensed under LGPL 3.0 license
-// built 2015-08-17
+// built 2015-08-18
 
 // in case the library before this didn't end with a semicolon
 ;
@@ -19,8 +19,8 @@
 * @namespace
 * @global
 * @exports five
-* @prop {string} version - Library version.
-* @prop {number} canvasSupport - Canvas support. 0: no support. 0.5: basic support but no text. 1: full support.
+* @prop {String} version - Library version.
+* @prop {Number} canvasSupport - Canvas support. 0: no support. 0.5: basic support but no text. 1: full support.
 */
 var five = {
     version: '0.1.1',
@@ -38,23 +38,22 @@ if(!five.canvasSupport) throw new Error('No canvas support.');
 * Object to represent a circle.
 * @class
 * @param {five.Point} loc - Center of the circle.
-* @param {number} rad - Radius of the circle.
+* @param {Number} rad - Radius of the circle.
 */
 five.Circ = function(loc, rad) {
     // position
-    /** @var {number} */
+    /** @var {Number} - X position. */
     this.x = loc.x;
-    /** @var {number} */
+    /** @var {Number} - Y position. */
     this.y = loc.y;
     // radius
-    /** @var {number} */
+    /** @var {Number} - Radius. */
     this.radius = rad;
 };
 
 /**
 * Returns the bounding box of a circle.
-* @namepath Circ#boundingBox
-* @returns five.Rect
+* @returns {five.Rect}
 */
 five.Circ.prototype.boundingBox = function() {
     return new five.Rect(
@@ -63,7 +62,17 @@ five.Circ.prototype.boundingBox = function() {
     );
 };
 
+/**
+* Collision detection functions.
+* @namespace
+*/
 five.collider = {
+    /**
+    * Bounding box collision detection between two rectangles.
+    * @param {five.Rect} r1 - First rectangle.
+    * @param {five.Rect} r2 - Second rectangle.
+    * @returns Boolean
+    */
     rectVsRect: function(r1, r2) {
         // bounding-box collision detection
         return r1.x <= r2.x + r2.w &&
@@ -72,56 +81,104 @@ five.collider = {
             r1.y + r1.h >= r2.y;
     },
 
+    /**
+    * Collision detection between two circles via distance between centers.
+    * @param {five.Circ} c1 - First circle.
+    * @param {five.Circ} c2 - Second circle.
+    * @returns Boolean
+    */
     circVsCirc: function(c1, c2) {
         // is the distance between their center points
         // less than or equal to the sum of their radii?
         return new five.Point(c1.x, c1.y).distanceTo(new five.Point(c2.x, c2.y)) <= c1.radius + c2.radius;
     },
 
+    /**
+    * Detect if a point is inside a rectangle.
+    * @param {five.Rect} r - The rectangle to check if the point is in.
+    * @param {five.Point} p - The point.
+    * @returns Boolean
+    */
     rectVsPoint: function(r, p) {
         // is the point in the rectangle?
         return (p.x > r.x || p.x < r.x + r.w) && (p.y > r.y || p.y < r.y + r.h);
     },
 
+    /**
+    * Detect if a point is inside a circle.
+    * @param {five.Circ} c - The circle to check if the point is in.
+    * @param {five.Point} p - The point.
+    * @returns Boolean
+    */
     circVsPoint: function(c, p) {
         return new five.Point(c.x, c.y).distanceTo(p) <= c.radius;
     }
 };
 
+/**
+* Object to represent a color.
+* @class
+* @param {Number} r - Red channel. (0-255)
+* @param {Number} g - Green channel. (0-255)
+* @param {Number} b - Blue channel. (0-255)
+* @param {Number} [a=0] - Alpha channel. (0-1)
+*/
 five.Color = function(r, g, b, a) {
+    /** @var {Number} - Red channel. (0-255) */
     this.r = r;
+    /** @var {Number} - Green channel. (0-255) */
     this.g = g;
+    /** @var {Number} - Blue channel. (0-255) */
     this.b = b;
     // alpha channel defaults to opaque
+    /** @var {Number} - Alpha channel. (0-1) */
     this.a = typeof a == 'undefined' ? 1 : a;
 };
 
-// function to get CSS string representation
+/**
+* Returns rgba-formatted color string
+* @returns {String}
+*/
 five.Color.prototype.toString = function() {
     // rgba() format is the easiest to construct here
     return 'rgba(' + this.r + ', ' + this.g + ', ' + this.b + ', ' + this.a + ')';
 };
 
+/**
+* Object to represent a dx/dy pair.
+* @class
+* @param {Number} dx - Delta X.
+* @param {Number} dy - Delta Y.
+*/
 five.Delta = function(dx, dy) {
+    /** @var {Number} - Delta X. */
     this.dx = dx;
+    /** @var {Number} - Delta Y. */
     this.dy = dy;
 };
 
-// getter for length
-Object.defineProperty(five.Delta.prototype, 'length', {
-    get: function() {
-        // Pythagorean theorem
-        return Math.sqrt(Math.pow(this.dx, 2) + Math.pow(this.dy, 2));
-    }
-});
+/**
+* Get the length of a delta.
+* @returns {Number}
+*/
+five.Delta.prototype.length = function() {
+    // Pythagorean theorem
+    return Math.sqrt(Math.pow(this.dx, 2) + Math.pow(this.dy, 2));
+};
 
-// conversion to vector
-Object.defineProperty(five.Delta.prototype, 'vector', {
-    get: function() {
-        return new five.Vector(Math.atan2(this.dy, this.dx) * (180 / Math.PI) + 90, this.length);
-    }
-});
+/**
+* Convert a delta to a vector.
+* @returns five.Vector
+*/
+five.Delta.prototype.toVector = function() {
+    return new five.Vector(Math.atan2(this.dy, this.dx) * (180 / Math.PI) + 90, this.length);
+};
 
+/**
+* Add to another delta.
+* @param {five.Delta} otherDelta - The other delta to add.
+* @returns five.Delta
+*/
 five.Delta.prototype.add = function(otherDelta) {
     return new five.Delta(this.dx + otherDelta.dx, this.dy + otherDelta.dy);
 };

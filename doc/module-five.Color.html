@@ -2,7 +2,7 @@
 <html lang="en">
 <head>
     <meta charset="utf-8">
-    <title>JSDoc: Class: Circ</title>
+    <title>JSDoc: Class: Color</title>
 
     <script src="scripts/prettify/prettify.js"> </script>
     <script src="scripts/prettify/lang-css.js"> </script>
@@ -17,7 +17,7 @@
 
 <div id="main">
 
-    <h1 class="page-title">Class: Circ</h1>
+    <h1 class="page-title">Class: Color</h1>
 
     
 
@@ -31,7 +31,7 @@
         <h2>
             <span class="ancestors"><a href="module-five.html">five</a>.</span>
         
-        Circ
+        Color
         </h2>
         
     
@@ -44,14 +44,14 @@
 
     
 
-    <h4 class="name" id="Circ"><span class="type-signature"></span>new Circ<span class="signature">(loc, rad)</span><span class="type-signature"></span></h4>
+    <h4 class="name" id="Color"><span class="type-signature"></span>new Color<span class="signature">(r, g, b, a<span class="signature-attributes">opt</span>)</span><span class="type-signature"></span></h4>
 
     
 
 
 
 <div class="description">
-    Object to represent a circle.
+    Object to represent a color.
 </div>
 
 
@@ -75,7 +75,11 @@
         <th>Type</th>
 
         
+        <th>Attributes</th>
+        
 
+        
+        <th>Default</th>
         
 
         <th class="last">Description</th>
@@ -87,30 +91,7 @@
 
         <tr>
             
-                <td class="name"><code>loc</code></td>
-            
-
-            <td class="type">
-            
-                
-<span class="param-type">five.Point</span>
-
-
-            
-            </td>
-
-            
-
-            
-
-            <td class="description last">Center of the circle.</td>
-        </tr>
-
-    
-
-        <tr>
-            
-                <td class="name"><code>rad</code></td>
+                <td class="name"><code>r</code></td>
             
 
             <td class="type">
@@ -123,10 +104,131 @@
             </td>
 
             
+                <td class="attributes">
+                
 
+                
+
+                
+                </td>
             
 
-            <td class="description last">Radius of the circle.</td>
+            
+                <td class="default">
+                
+                </td>
+            
+
+            <td class="description last">Red channel. (0-255)</td>
+        </tr>
+
+    
+
+        <tr>
+            
+                <td class="name"><code>g</code></td>
+            
+
+            <td class="type">
+            
+                
+<span class="param-type">Number</span>
+
+
+            
+            </td>
+
+            
+                <td class="attributes">
+                
+
+                
+
+                
+                </td>
+            
+
+            
+                <td class="default">
+                
+                </td>
+            
+
+            <td class="description last">Green channel. (0-255)</td>
+        </tr>
+
+    
+
+        <tr>
+            
+                <td class="name"><code>b</code></td>
+            
+
+            <td class="type">
+            
+                
+<span class="param-type">Number</span>
+
+
+            
+            </td>
+
+            
+                <td class="attributes">
+                
+
+                
+
+                
+                </td>
+            
+
+            
+                <td class="default">
+                
+                </td>
+            
+
+            <td class="description last">Blue channel. (0-255)</td>
+        </tr>
+
+    
+
+        <tr>
+            
+                <td class="name"><code>a</code></td>
+            
+
+            <td class="type">
+            
+                
+<span class="param-type">Number</span>
+
+
+            
+            </td>
+
+            
+                <td class="attributes">
+                
+                    &lt;optional><br>
+                
+
+                
+
+                
+                </td>
+            
+
+            
+                <td class="default">
+                
+                    0
+                
+                </td>
+            
+
+            <td class="description last">Alpha channel. (0-1)</td>
         </tr>
 
     
@@ -167,7 +269,7 @@
     
     <dt class="tag-source">Source:</dt>
     <dd class="tag-source"><ul class="dummy"><li>
-        <a href="lib_circ.js.html">lib/circ.js</a>, <a href="lib_circ.js.html#line7">line 7</a>
+        <a href="lib_color.js.html">lib/color.js</a>, <a href="lib_color.js.html#line9">line 9</a>
     </li></ul></dd>
     
 
@@ -211,13 +313,13 @@
 
         
             
-<h4 class="name" id="radius"><span class="type-signature"></span>radius<span class="type-signature"> :Number</span></h4>
+<h4 class="name" id="a"><span class="type-signature"></span>a<span class="type-signature"> :Number</span></h4>
 
 
 
 
 <div class="description">
-    Radius.
+    Alpha channel. (0-1)
 </div>
 
 
@@ -265,7 +367,7 @@
     
     <dt class="tag-source">Source:</dt>
     <dd class="tag-source"><ul class="dummy"><li>
-        <a href="lib_circ.js.html">lib/circ.js</a>, <a href="lib_circ.js.html#line15">line 15</a>
+        <a href="lib_color.js.html">lib/color.js</a>, <a href="lib_color.js.html#line18">line 18</a>
     </li></ul></dd>
     
 
@@ -283,13 +385,13 @@
 
         
             
-<h4 class="name" id="x"><span class="type-signature"></span>x<span class="type-signature"> :Number</span></h4>
+<h4 class="name" id="b"><span class="type-signature"></span>b<span class="type-signature"> :Number</span></h4>
 
 
 
 
 <div class="description">
-    X position.
+    Blue channel. (0-255)
 </div>
 
 
@@ -337,7 +439,7 @@
     
     <dt class="tag-source">Source:</dt>
     <dd class="tag-source"><ul class="dummy"><li>
-        <a href="lib_circ.js.html">lib/circ.js</a>, <a href="lib_circ.js.html#line10">line 10</a>
+        <a href="lib_color.js.html">lib/color.js</a>, <a href="lib_color.js.html#line15">line 15</a>
     </li></ul></dd>
     
 
@@ -355,13 +457,13 @@
 
         
             
-<h4 class="name" id="y"><span class="type-signature"></span>y<span class="type-signature"> :Number</span></h4>
+<h4 class="name" id="g"><span class="type-signature"></span>g<span class="type-signature"> :Number</span></h4>
 
 
 
 
 <div class="description">
-    Y position.
+    Green channel. (0-255)
 </div>
 
 
@@ -409,7 +511,79 @@
     
     <dt class="tag-source">Source:</dt>
     <dd class="tag-source"><ul class="dummy"><li>
-        <a href="lib_circ.js.html">lib/circ.js</a>, <a href="lib_circ.js.html#line12">line 12</a>
+        <a href="lib_color.js.html">lib/color.js</a>, <a href="lib_color.js.html#line13">line 13</a>
+    </li></ul></dd>
+    
+
+    
+
+    
+
+    
+</dl>
+
+
+
+
+
+
+        
+            
+<h4 class="name" id="r"><span class="type-signature"></span>r<span class="type-signature"> :Number</span></h4>
+
+
+
+
+<div class="description">
+    Red channel. (0-255)
+</div>
+
+
+
+    <h5>Type:</h5>
+    <ul>
+        <li>
+            
+<span class="param-type">Number</span>
+
+
+        </li>
+    </ul>
+
+
+
+
+
+<dl class="details">
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+    <dt class="tag-source">Source:</dt>
+    <dd class="tag-source"><ul class="dummy"><li>
+        <a href="lib_color.js.html">lib/color.js</a>, <a href="lib_color.js.html#line11">line 11</a>
     </li></ul></dd>
     
 

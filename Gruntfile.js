@@ -55,7 +55,8 @@ module.exports = function(grunt) {
             dist: {
                 src: ['src/five.js', 'src/lib/*.js'],
                 options: {
-                    destination: 'doc'
+                    destination: 'doc',
+                    private: false
                 }
             }
         }

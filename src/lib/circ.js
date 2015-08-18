@@ -2,22 +2,22 @@
 * Object to represent a circle.
 * @class
 * @param {five.Point} loc - Center of the circle.
-* @param {number} rad - Radius of the circle.
+* @param {Number} rad - Radius of the circle.
 */
 five.Circ = function(loc, rad) {
     // position
-    /** @var {number} */
+    /** @var {Number} - X position. */
     this.x = loc.x;
-    /** @var {number} */
+    /** @var {Number} - Y position. */
     this.y = loc.y;
     // radius
-    /** @var {number} */
+    /** @var {Number} - Radius. */
     this.radius = rad;
 };
 
 /**
 * Returns the bounding box of a circle.
-* @returns five.Rect
+* @returns {five.Rect}
 */
 five.Circ.prototype.boundingBox = function() {
     return new five.Rect(

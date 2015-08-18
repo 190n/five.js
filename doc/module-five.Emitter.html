@@ -2,7 +2,7 @@
 <html lang="en">
 <head>
     <meta charset="utf-8">
-    <title>JSDoc: Source: five.js</title>
+    <title>JSDoc: Class: Emitter</title>
 
     <script src="scripts/prettify/prettify.js"> </script>
     <script src="scripts/prettify/lang-css.js"> </script>
@@ -17,37 +17,133 @@
 
 <div id="main">
 
-    <h1 class="page-title">Source: five.js</h1>
+    <h1 class="page-title">Class: Emitter</h1>
 
     
 
 
 
-    
-    <section>
-        <article>
-            <pre class="prettyprint source linenums"><code>// base definition
-/**
-* Main library namespace.
-* @namespace
-* @global
-* @exports five
-* @prop {String} version - Library version.
-* @prop {Number} canvasSupport - Canvas support. 0: no support. 0.5: basic support but no text. 1: full support.
-*/
-var five = {
-    version: '0.1.1',
-    // canvasSupport:
-    // 0 = no support
-    // 0.5 = basic support but no text
-    // 1 = full support
-    canvasSupport: isNode ? 1 : !!this.CanvasRenderingContext2D / 2 + !!this.TextMetrics / 2
-};
 
-if(five.canvasSupport == 0.5) console.warn('No canvas text support.');
-if(!five.canvasSupport) throw new Error('No canvas support.');</code></pre>
-        </article>
-    </section>
+<section>
+
+<header>
+    
+        <h2>
+            <span class="ancestors"><a href="module-five.html">five</a>.</span>
+        
+        Emitter
+        </h2>
+        
+    
+</header>
+
+<article>
+    <div class="container-overview">
+    
+        
+
+    
+
+    <h4 class="name" id="Emitter"><span class="type-signature"></span>new Emitter<span class="signature">()</span><span class="type-signature"></span></h4>
+
+    
+
+
+
+<div class="description">
+    Event emitter object.
+</div>
+
+
+
+
+
+
+
+
+
+
+
+
+
+<dl class="details">
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+    <dt class="tag-source">Source:</dt>
+    <dd class="tag-source"><ul class="dummy"><li>
+        <a href="lib_emitter.js.html">lib/emitter.js</a>, <a href="lib_emitter.js.html#line5">line 5</a>
+    </li></ul></dd>
+    
+
+    
+
+    
+
+    
+</dl>
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+    
+    </div>
+
+    
+
+    
+
+    
+
+     
+
+    
+
+    
+
+    
+
+    
+
+    
+</article>
+
+</section>
 
 
 
