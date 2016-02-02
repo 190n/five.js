@@ -1,8 +1,8 @@
 {
   "name": "five.js",
-  "version": "0.3.1",
+  "version": "0.3.2",
   "description": "HTML5 2D game development library",
-  "main": "lib/five.js",
+  "main": "dist/five.js",
   "repository": {
     "type": "git",
     "url": "git+https://github.com/190n/five.js.git"
