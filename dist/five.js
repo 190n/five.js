@@ -28,6 +28,10 @@ var _textEntity = require('./text-entity');
 
 var _textEntity2 = _interopRequireDefault(_textEntity);
 
+var _vector2d = require('./vector2d.js');
+
+var _vector2d2 = _interopRequireDefault(_vector2d);
+
 var _util = require('./util');
 
 var _util2 = _interopRequireDefault(_util);
@@ -35,7 +39,7 @@ var _util2 = _interopRequireDefault(_util);
 function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
 
 var five = {
-    VERSION: '0.2.0',
+    VERSION: '0.3.3',
 
     canvasSupport: function canvasSupport() {
         var result = 0;
@@ -50,6 +54,7 @@ var five = {
     Manager: _manager2.default,
     Movement: _movement2.default,
     TextEntity: _textEntity2.default,
+    Vector2D: _vector2d2.default,
     util: _util2.default
 };
 

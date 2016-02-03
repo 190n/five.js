@@ -98,7 +98,7 @@ var Manager = function () {
 
                     if (!e.frozen) {
                         try {
-                            e.update(dt);
+                            e.update(dt / 1000);
                         } catch (e) {
                             console.error(e);
                         }
@@ -136,7 +136,9 @@ var Manager = function () {
 
                     if (!e.invisible) {
                         try {
+                            this.ctx.save();
                             e.draw(this.ctx);
+                            this.ctx.restore();
                         } catch (e) {
                             console.error(e);
                         }
