@@ -137,7 +137,9 @@ var Manager = function () {
                     if (!e.invisible) {
                         try {
                             this.ctx.save();
+                            this.ctx.beginPath();
                             e.draw(this.ctx);
+                            this.ctx.closePath();
                             this.ctx.restore();
                         } catch (e) {
                             console.error(e);
