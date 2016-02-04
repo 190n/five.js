@@ -5,12 +5,14 @@ Object.defineProperty(exports, "__esModule", {
 });
 var util = {
     boundingBoxCollide: function boundingBoxCollide(_ref, _ref2) {
-        var x1 = _ref.x;
-        var y1 = _ref.y;
+        var _ref$pos = _ref.pos;
+        var x1 = _ref$pos.x;
+        var y1 = _ref$pos.y;
         var w1 = _ref.width;
         var h1 = _ref.height;
-        var x2 = _ref2.x;
-        var y2 = _ref2.y;
+        var _ref2$pos = _ref2.pos;
+        var x2 = _ref2$pos.x;
+        var y2 = _ref2$pos.y;
         var w2 = _ref2.width;
         var h2 = _ref2.height;
 
