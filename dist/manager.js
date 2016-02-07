@@ -23,8 +23,8 @@ var Manager = function () {
         key: 'start',
         value: function start() {
             this.lastUpdate = Date.now();
-            requestAnimationFrame(this.update.bind(this));
-            requestAnimationFrame(this.draw.bind(this));
+            this.__updateId = requestAnimationFrame(this.update.bind(this));
+            this.__drawId = requestAnimationFrame(this.draw.bind(this));
         }
     }, {
         key: 'addEntities',
@@ -85,7 +85,7 @@ var Manager = function () {
     }, {
         key: 'update',
         value: function update() {
-            requestAnimationFrame(this.update.bind(this));
+            this.__updateId = requestAnimationFrame(this.update.bind(this));
             var dt = Date.now() - this.lastUpdate;
             if (this.paused) return;
             var _iteratorNormalCompletion2 = true;
@@ -124,7 +124,7 @@ var Manager = function () {
     }, {
         key: 'draw',
         value: function draw() {
-            requestAnimationFrame(this.draw.bind(this));
+            this.__drawId = requestAnimationFrame(this.draw.bind(this));
             this.ctx.clearRect(0, 0, this.canvas.width, this.canvas.height);
             var _iteratorNormalCompletion3 = true;
             var _didIteratorError3 = false;
@@ -160,6 +160,12 @@ var Manager = function () {
                     }
                 }
             }
+        }
+    }, {
+        key: 'destroy',
+        value: function destroy() {
+            cancelAnimationFrame(this.__updateId);
+            cancelAnimationFrame(this.__drawId);
         }
     }]);
 

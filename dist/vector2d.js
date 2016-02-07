@@ -27,13 +27,28 @@ var Vector2D = function () {
         value: function multiply(factor) {
             return new Vector2D(this.x * factor, this.y * factor);
         }
+    }, {
+        key: "length",
+        value: function length() {
+            return Math.sqrt(this.x * this.x, this.y * this.y);
+        }
+    }, {
+        key: "angle",
+        value: function angle() {
+            return Math.atan2(this.y, this.x) * (180 / Math.PI);
+        }
+    }, {
+        key: "toPolar",
+        value: function toPolar() {
+            return [this.angle(), this.length()];
+        }
     }]);
 
     return Vector2D;
 }();
 
 Vector2D.fromPolar = function (deg, len) {
-    var rad = deg * (180 / Math.PI),
+    var rad = deg / (180 / Math.PI),
         xf = Math.round(Math.cos(rad) * 1000) / 1000,
         yf = Math.round(Math.sin(rad) * 1000) / 1000;
     return new Vector2D(xf, yf).multiply(len);
