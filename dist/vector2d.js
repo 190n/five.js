@@ -30,7 +30,7 @@ var Vector2D = function () {
     }, {
         key: "length",
         value: function length() {
-            return Math.sqrt(this.x * this.x, this.y * this.y);
+            return Math.sqrt(this.x * this.x + this.y * this.y);
         }
     }, {
         key: "angle",
