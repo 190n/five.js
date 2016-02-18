@@ -5,7 +5,6 @@ var _createClass = function () { function defineProperties(target, props) { for 
 Object.defineProperty(exports, "__esModule", {
     value: true
 });
-exports.default = Vecor2DFactory;
 
 function _classCallCheck(instance, Constructor) { if (!(instance instanceof Constructor)) { throw new TypeError("Cannot call a class as a function"); } }
 
@@ -47,17 +46,20 @@ var Vector2D = function () {
     return Vector2D;
 }();
 
-Vector2D.fromPolar = function (deg, len) {
+function fromPolar(deg, len) {
     var rad = deg / (180 / Math.PI),
         xf = Math.round(Math.cos(rad) * 1000) / 1000,
         yf = Math.round(Math.sin(rad) * 1000) / 1000;
     return new Vector2D(xf, yf).multiply(len);
-};
+}
 
-function Vecor2DFactory() {
+function Vector2DFactory() {
     for (var _len = arguments.length, args = Array(_len), _key = 0; _key < _len; _key++) {
         args[_key] = arguments[_key];
     }
 
     return new (Function.prototype.bind.apply(Vector2D, [null].concat(args)))();
-};
+}
+
+Vector2DFactory.fromPolar = fromPolar;
+exports.default = Vector2DFactory;
