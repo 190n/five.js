@@ -38,7 +38,7 @@ var Sprite = {
     addAnimation: function addAnimation(name, anim) {
         this._anims[name] = anim;
     },
-    playAnim: function playAnim(name, dur, iters) {
+    playAnimation: function playAnimation(name, dur, iters) {
         this._activeAnim = this._anims[name];
         this._timePerFrame = dur / this._anims[name].length;
         this._playsLeft = iters;

@@ -47,7 +47,7 @@ var _util2 = _interopRequireDefault(_util);
 function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
 
 var five = {
-    VERSION: '0.4.2',
+    VERSION: '0.4.3',
 
     canvasSupport: function canvasSupport() {
         var result = 0;
