@@ -32,6 +32,10 @@ var _vector2d = require('./vector2d.js');
 
 var _vector2d2 = _interopRequireDefault(_vector2d);
 
+var _sprite = require('./sprite');
+
+var _sprite2 = _interopRequireDefault(_sprite);
+
 var _keyboard = require('./keyboard');
 
 var _keyboard2 = _interopRequireDefault(_keyboard);
@@ -43,7 +47,7 @@ var _util2 = _interopRequireDefault(_util);
 function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
 
 var five = {
-    VERSION: '0.3.13',
+    VERSION: '0.4.0',
 
     canvasSupport: function canvasSupport() {
         var result = 0;
@@ -60,6 +64,7 @@ var five = {
     Movement: _movement2.default,
     TextEntity: _textEntity2.default,
     Vector2D: _vector2d2.default,
+    Sprite: _sprite2.default,
     keyboard: _keyboard2.default,
     util: _util2.default
 };
