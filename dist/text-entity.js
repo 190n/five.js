@@ -18,7 +18,7 @@ var TextEntity = {
         ctx.textBaseline = this.textEntityOptions.baseline;
         ctx.font = this.textEntityOptions.font;
         ctx.fillStyle = this.textEntityOptions.color;
-        ctx.fillText(this.textEntityOptions.text, this.x, this.y);
+        ctx.fillText(this.textEntityOptions.text, this.pos.x, this.pos.y);
         ctx.restore();
     }
 };

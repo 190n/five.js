@@ -67,11 +67,11 @@ var CompoundEntity = {
             for (var _iterator2 = this.entities[Symbol.iterator](), _step2; !(_iteratorNormalCompletion2 = (_step2 = _iterator2.next()).done); _iteratorNormalCompletion2 = true) {
                 var e = _step2.value;
 
-                e.x -= this.x;
-                e.y -= this.y;
+                e.pos.x -= this.pos.x;
+                e.pos.y -= this.pos.y;
                 e.update(dt);
-                e.x += this.x;
-                e.y += this.y;
+                e.pos.x += this.pos.x;
+                e.pos.y += this.pos.y;
             }
         } catch (err) {
             _didIteratorError2 = true;

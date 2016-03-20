@@ -5,13 +5,20 @@ Object.defineProperty(exports, "__esModule", {
 });
 var ImageEntity = {
     image: null,
-    imageWidth: 0,
-    imageHeight: 0,
+    sourceRect: null,
+    drawWidth: 0,
+    drawHeight: 0,
 
     drawImage: function drawImage(ctx) {
-        var width = this.imageWidth == 0 ? this.image.width : this.imageWidth,
-            height = this.imageHeight == 0 ? this.image.height : this.imageHeight;
-        ctx.drawImage(this.image, this.x - width / 2, this.y - height / 2, width, height);
+        var dw = this.imageWidth == 0 ? this.imageWidth = this.image.width : this.imageWidth,
+            dh = this.imageHeight == 0 ? this.imageHeight = this.image.height : this.imageHeight,
+            dx = this.pos.x,
+            dy = this.pos.y,
+            sw = this.sourceRect ? this.sourceRect.width : dw,
+            sh = this.sourceRect ? this.sourceRect.height : dh,
+            sx = this.sourceRect ? this.sourceRect.pos.x : 0,
+            sy = this.sourceRect ? this.sourceRect.pos.y : 0;
+        ctx.drawImage(this.image, sx, sy, sw, sh, dx, dy, dw, dh);
     }
 };
 

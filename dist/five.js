@@ -32,6 +32,10 @@ var _vector2d = require('./vector2d.js');
 
 var _vector2d2 = _interopRequireDefault(_vector2d);
 
+var _keyboard = require('./keyboard');
+
+var _keyboard2 = _interopRequireDefault(_keyboard);
+
 var _util = require('./util');
 
 var _util2 = _interopRequireDefault(_util);
@@ -56,6 +60,7 @@ var five = {
     Movement: _movement2.default,
     TextEntity: _textEntity2.default,
     Vector2D: _vector2d2.default,
+    keyboard: _keyboard2.default,
     util: _util2.default
 };
 
