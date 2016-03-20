@@ -8,6 +8,7 @@ var ImageEntity = {
     sourceRect: null,
     drawWidth: null,
     drawHeight: null,
+    imageSmoothing: true,
 
     drawImage: function drawImage(ctx) {
         var dw = this.drawWidth === null ? this.drawWidth = this.image.width : this.drawWidth,
@@ -18,6 +19,10 @@ var ImageEntity = {
             sh = this.sourceRect ? this.sourceRect.height : dh,
             sx = this.sourceRect ? this.sourceRect.pos.x : 0,
             sy = this.sourceRect ? this.sourceRect.pos.y : 0;
+        ctx.imageSmoothingEnabled = this.imageSmoothing;
+        ctx.webkitImageSmoothingEnabled = this.imageSmoothing;
+        ctx.mozImageSmoothingEnabled = this.imageSmoothing;
+        ctx.msImageSmoothingEnabled = this.imageSmoothing;
         ctx.drawImage(this.image, sx, sy, sw, sh, dx - dw / 2, dy - dh / 2, dw, dh);
     }
 };

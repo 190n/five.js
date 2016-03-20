@@ -1,6 +1,6 @@
 {
   "name": "five.js",
-  "version": "0.4.3",
+  "version": "0.4.4",
   "description": "HTML5 2D game development library",
   "main": "dist/five.js",
   "repository": {
