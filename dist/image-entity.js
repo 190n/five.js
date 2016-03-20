@@ -6,12 +6,12 @@ Object.defineProperty(exports, "__esModule", {
 var ImageEntity = {
     image: null,
     sourceRect: null,
-    drawWidth: 0,
-    drawHeight: 0,
+    drawWidth: null,
+    drawHeight: null,
 
     drawImage: function drawImage(ctx) {
-        var dw = this.imageWidth == 0 ? this.imageWidth = this.image.width : this.imageWidth,
-            dh = this.imageHeight == 0 ? this.imageHeight = this.image.height : this.imageHeight,
+        var dw = this.drawWidth === null ? this.drawWidth = this.image.width : this.drawWidth,
+            dh = this.drawHeight === null ? this.drawHeight = this.image.height : this.drawHeight,
             dx = this.pos.x,
             dy = this.pos.y,
             sw = this.sourceRect ? this.sourceRect.width : dw,
