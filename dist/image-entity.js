@@ -18,7 +18,7 @@ var ImageEntity = {
             sh = this.sourceRect ? this.sourceRect.height : dh,
             sx = this.sourceRect ? this.sourceRect.pos.x : 0,
             sy = this.sourceRect ? this.sourceRect.pos.y : 0;
-        ctx.drawImage(this.image, sx, sy, sw, sh, dx, dy, dw, dh);
+        ctx.drawImage(this.image, sx, sy, sw, sh, dx - dw / 2, dy - dh / 2, dw, dh);
     }
 };
 

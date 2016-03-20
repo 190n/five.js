@@ -21,7 +21,7 @@ var Sprite = {
     _rows: null,
     _anims: {},
 
-    drawSprite: function drawSprite() {
+    drawSprite: function drawSprite(ctx) {
         if (!this.drawWidth) this.drawWidth = this.spriteOptions.tileWidth * this.spriteOptions.scale;
         if (!this.drawHeight) this.drawHeight = this.spriteOptions.tileHeight * this.spriteOptions.scale;
         if (!this._cols) this._cols = this.image.width / this.spriteOptions.tileWidth;
@@ -33,7 +33,7 @@ var Sprite = {
             height: this.spriteOptions.tileHeight,
             pos: (0, _vector2d2.default)(col * this.spriteOptions.tileWidth, row * this.spriteOptions.tileHeight)
         };
-        this.drawImage();
+        this.drawImage(ctx);
     },
     addAnimation: function addAnimation(name, anim) {
         this._anims[name] = anim;
