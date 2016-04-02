@@ -39,7 +39,7 @@ var Sound = function () {
             var vol = arguments.length <= 0 || arguments[0] === undefined ? 1 : arguments[0];
 
             var source = this.audioContext.createBufferSource(),
-                gain = this.audioContext.createGainNode();
+                gain = this.audioContext.createGain();
             gain.gain.value = vol;
             source.buffer = this._buffer;
             source.connect(gain);
