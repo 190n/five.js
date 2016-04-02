@@ -36,6 +36,14 @@ var _sprite = require('./sprite');
 
 var _sprite2 = _interopRequireDefault(_sprite);
 
+var _mixer = require('./mixer');
+
+var _mixer2 = _interopRequireDefault(_mixer);
+
+var _sound = require('./sound');
+
+var _sound2 = _interopRequireDefault(_sound);
+
 var _keyboard = require('./keyboard');
 
 var _keyboard2 = _interopRequireDefault(_keyboard);
@@ -47,7 +55,7 @@ var _util2 = _interopRequireDefault(_util);
 function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
 
 var five = {
-    VERSION: '0.4.4',
+    VERSION: '0.5.0',
 
     canvasSupport: function canvasSupport() {
         var result = 0;
@@ -65,6 +73,8 @@ var five = {
     TextEntity: _textEntity2.default,
     Vector2D: _vector2d2.default,
     Sprite: _sprite2.default,
+    Mixer: _mixer2.default,
+    Sound: _sound2.default,
     keyboard: _keyboard2.default,
     util: _util2.default
 };
