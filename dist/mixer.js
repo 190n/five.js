@@ -15,7 +15,7 @@ var Mixer = function () {
         this.masterVolume = 1;
         this.categories = {};
         this._soundCategoryMap = {};
-        var AudioContext = AudioContext || webkitAudioContext;
+        var AudioContext = window.AudioContext || window.webkitAudioContext;
         this.audioContext = new AudioContext();
     }
 
