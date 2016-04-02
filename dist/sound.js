@@ -32,6 +32,7 @@ var Sound = function () {
                     _this.assetsLoaded = 1;
                 });
             };
+            xhr.send();
         }
     }, {
         key: 'play',
