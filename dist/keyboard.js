@@ -3,21 +3,29 @@
 Object.defineProperty(exports, "__esModule", {
     value: true
 });
-var pressed = [];
+exports.default = init;
+function init(elem, callback) {
+    var pressed = [];
 
-window.addEventListener('keydown', function (e) {
-    pressed.push(e.keyCode);
-}, false);
+    elem.addEventListener('keydown', function (e) {
+        pressed.push(e.keyCode);
+        callback({
+            type: 'down',
+            key: e.keyCode
+        });
+    }, false);
 
-window.addEventListener('keyup', function (e) {
-    pressed = pressed.filter(function (k) {
-        return k != e.keyCode;
-    });
-}, false);
+    elem.addEventListener('keyup', function (e) {
+        pressed = pressed.filter(function (k) {
+            return k != e.keyCode;
+        });
+        callback({
+            type: 'up',
+            key: e.keyCode
+        });
+    }, false);
 
-exports.default = {
-    pressed: pressed,
-    isDown: function isDown(key) {
+    return function (key) {
         return pressed.includes(key);
-    }
+    };
 };
