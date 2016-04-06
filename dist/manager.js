@@ -8,6 +8,12 @@ var _createClass = function () { function defineProperties(target, props) { for 
 
 exports.default = ManagerFactory;
 
+var _input = require('./input');
+
+var _input2 = _interopRequireDefault(_input);
+
+function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
+
 function _classCallCheck(instance, Constructor) { if (!(instance instanceof Constructor)) { throw new TypeError("Cannot call a class as a function"); } }
 
 var Manager = function () {
@@ -17,6 +23,7 @@ var Manager = function () {
         this.canvas = canvas;
         this.ctx = canvas.getContext('2d');
         this.paused = false;
+        this.input = (0, _input2.default)(canvas);
         this.entities = [];
     }
 
