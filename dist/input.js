@@ -30,10 +30,10 @@ var Input = function () {
 
         this.actions = {};
         this._listeners = {};
-        this._keyPressed = (0, _keyboard2.default)(elem, this._kbdCallback);
+        this._keyPressed = (0, _keyboard2.default)(elem, this._kbdCallback.bind(this));
         this._mouseButtonsPressed = [];
         this.mousePos = (0, _vector2d2.default)(0, 0);
-        (0, _mouse2.default)(elem, this._mouseCallback);
+        (0, _mouse2.default)(elem, this._mouseCallback.bind(this));
     }
 
     _createClass(Input, [{
