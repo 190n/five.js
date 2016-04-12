@@ -1,0 +1,57 @@
+<!doctype html>
+<html lang="en">
+    <head>
+        <meta charset="utf-8">
+        <title>input test</title>
+        <script src="build/bundle.js"></script>
+        <style>
+            #target {
+                border: thin solid black;
+                background: #c0e0ff;
+                position: absolute;
+                top: 50%;
+                left: 50%;
+                margin-top: -241px;
+                margin-left: -321px;
+                width: 640px;
+                height: 480px;
+            }
+
+            #target span {
+                display: block;
+                font-family: Montserrat;
+                font-size: 30px;
+                font-weight: bold;
+                width: 640px;
+                height: 60px;
+                position: absolute;
+                top: 50%;
+                left: 50%;
+                margin-top: -30px;
+                margin-left: -320px;
+                color: #80c0ff;
+                text-align: center;
+            }
+
+            #cursor {
+                width: 32px;
+                height: 32px;
+                position: absolute;
+                left: 0;
+                top: 0;
+                background: #0080ff;
+                box-shadow: 0 0 16px 4px #0080ff;
+                opacity: 0.8;
+                border-radius: 50%;
+                margin-top: -16px;
+                margin-left: -16px;
+            }
+        </style>
+    </head>
+    <body>
+        <div id="target">
+            <span>Mouse, keyboard...</span>
+            <div id="cursor"></div>
+        </div>
+    </body>
+</html>
