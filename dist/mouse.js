@@ -19,16 +19,23 @@ function process(ev, target, type) {
     };
 }
 
-function init(elem, callback) {
+function init(elem, capture, callback) {
     elem.addEventListener('mousedown', function (ev) {
+        if (capture) ev.preventDefault();
         callback(process(ev, elem, 'down'), ev);
-    });
+    }, false);
 
     elem.addEventListener('mouseup', function (ev) {
+        if (capture) ev.preventDefault();
         callback(process(ev, elem, 'up'), ev);
-    });
+    }, false);
 
     elem.addEventListener('mousemove', function (ev) {
+        if (capture) ev.preventDefault();
         callback(process(ev, elem, 'move'), ev);
-    });
+    }, false);
+
+    if (capture) elem.addEventListener('contextmenu', function (ev) {
+        ev.preventDefault();
+    }, false);
 };

@@ -59,15 +59,7 @@ var _util2 = _interopRequireDefault(_util);
 function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
 
 var five = {
-    VERSION: '0.6.3',
-
-    canvasSupport: function canvasSupport() {
-        var result = 0;
-        if (typeof CanvasRenderingContext2D == 'function') result = 0.5;else return 0;
-        if (typeof CanvasRenderingContext2D.prototype.fillText == 'function') result = 1;
-        return result;
-    },
-
+    VERSION: '0.6.4',
 
     BaseEntity: _baseEntity2.default,
     CompoundEntity: _compoundEntity2.default,

@@ -26,14 +26,16 @@ function _classCallCheck(instance, Constructor) { if (!(instance instanceof Cons
 
 var Input = function () {
     function Input(elem) {
+        var capture = arguments.length <= 1 || arguments[1] === undefined ? false : arguments[1];
+
         _classCallCheck(this, Input);
 
         this.actions = {};
         this._listeners = {};
-        this._keyPressed = (0, _keyboard2.default)(elem, this._kbdCallback.bind(this));
+        this._keyPressed = (0, _keyboard2.default)(elem, capture, this._kbdCallback.bind(this));
         this._mouseButtonsPressed = [];
         this.mousePos = (0, _vector2d2.default)(0, 0);
-        (0, _mouse2.default)(elem, this._mouseCallback.bind(this));
+        (0, _mouse2.default)(elem, capture, this._mouseCallback.bind(this));
     }
 
     _createClass(Input, [{

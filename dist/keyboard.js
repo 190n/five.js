@@ -4,24 +4,26 @@ Object.defineProperty(exports, "__esModule", {
     value: true
 });
 exports.default = init;
-function init(elem, callback) {
+function init(elem, capture, callback) {
     var pressed = [];
 
-    elem.addEventListener('keydown', function (e) {
-        pressed.push(e.keyCode);
+    elem.addEventListener('keydown', function (ev) {
+        if (capture) ev.preventDefault();
+        pressed.push(ev.keyCode);
         callback({
             type: 'down',
-            key: e.keyCode
+            key: ev.keyCode
         });
     }, false);
 
-    elem.addEventListener('keyup', function (e) {
+    elem.addEventListener('keyup', function (ev) {
+        if (capture) ev.preventDefault();
         pressed = pressed.filter(function (k) {
-            return k != e.keyCode;
+            return k != ev.keyCode;
         });
         callback({
             type: 'up',
-            key: e.keyCode
+            key: ev.keyCode
         });
     }, false);
 
