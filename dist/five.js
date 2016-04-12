@@ -44,9 +44,13 @@ var _sound = require('./sound');
 
 var _sound2 = _interopRequireDefault(_sound);
 
-var _keyboard = require('./keyboard');
+var _input = require('./input');
 
-var _keyboard2 = _interopRequireDefault(_keyboard);
+var _input2 = _interopRequireDefault(_input);
+
+var _keys = require('./keys');
+
+var _keys2 = _interopRequireDefault(_keys);
 
 var _util = require('./util');
 
@@ -55,7 +59,7 @@ var _util2 = _interopRequireDefault(_util);
 function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
 
 var five = {
-    VERSION: '0.6.2',
+    VERSION: '0.6.3',
 
     canvasSupport: function canvasSupport() {
         var result = 0;
@@ -75,7 +79,8 @@ var five = {
     Sprite: _sprite2.default,
     Mixer: _mixer2.default,
     Sound: _sound2.default,
-    keyboard: _keyboard2.default,
+    Input: _input2.default,
+    keys: _keys2.default,
     util: _util2.default
 };
 
