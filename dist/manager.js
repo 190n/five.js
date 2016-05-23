@@ -31,8 +31,7 @@ var Manager = function () {
         key: 'start',
         value: function start() {
             this.lastUpdate = Date.now();
-            this.__updateId = requestAnimationFrame(this.update.bind(this));
-            this.__drawId = requestAnimationFrame(this.draw.bind(this));
+            this.__loopId = requestAnimationFrame(this.loop.bind(this));
         }
     }, {
         key: 'addEntities',
@@ -91,80 +90,44 @@ var Manager = function () {
             });
         }
     }, {
+        key: 'loop',
+        value: function loop() {
+            this.__loopId = requestAnimationFrame(this.loop.bind(this));
+            this.update();
+            this.draw();
+        }
+    }, {
         key: 'update',
         value: function update() {
-            this.__updateId = requestAnimationFrame(this.update.bind(this));
             var dt = Date.now() - this.lastUpdate;
             if (this.paused) return;
-            var _iteratorNormalCompletion2 = true;
-            var _didIteratorError2 = false;
-            var _iteratorError2 = undefined;
-
-            try {
-                for (var _iterator2 = this.entities[Symbol.iterator](), _step2; !(_iteratorNormalCompletion2 = (_step2 = _iterator2.next()).done); _iteratorNormalCompletion2 = true) {
-                    var e = _step2.value;
-
-                    if (!e.frozen) {
-                        try {
-                            e.update(dt / 1000);
-                        } catch (e) {
-                            console.error(e);
-                        }
-                    }
-                }
-            } catch (err) {
-                _didIteratorError2 = true;
-                _iteratorError2 = err;
-            } finally {
-                try {
-                    if (!_iteratorNormalCompletion2 && _iterator2.return) {
-                        _iterator2.return();
-                    }
-                } finally {
-                    if (_didIteratorError2) {
-                        throw _iteratorError2;
+            for (var i = 0; i < this.entities.length; i++) {
+                var e = this.entities[i];
+                if (!e.frozen) {
+                    try {
+                        e.update(dt / 1000);
+                    } catch (e) {
+                        console.error(e);
                     }
                 }
             }
-
             this.lastUpdate = Date.now();
         }
     }, {
         key: 'draw',
         value: function draw() {
-            this.__drawId = requestAnimationFrame(this.draw.bind(this));
             this.ctx.clearRect(0, 0, this.canvas.width, this.canvas.height);
-            var _iteratorNormalCompletion3 = true;
-            var _didIteratorError3 = false;
-            var _iteratorError3 = undefined;
-
-            try {
-                for (var _iterator3 = this.entities[Symbol.iterator](), _step3; !(_iteratorNormalCompletion3 = (_step3 = _iterator3.next()).done); _iteratorNormalCompletion3 = true) {
-                    var e = _step3.value;
-
-                    if (!e.invisible) {
-                        try {
-                            this.ctx.save();
-                            this.ctx.beginPath();
-                            e.draw(this.ctx);
-                            this.ctx.closePath();
-                            this.ctx.restore();
-                        } catch (e) {
-                            console.error(e);
-                        }
-                    }
-                }
-            } catch (err) {
-                _didIteratorError3 = true;
-                _iteratorError3 = err;
-            } finally {
-                try {
-                    if (!_iteratorNormalCompletion3 && _iterator3.return) {
-                        _iterator3.return();
-                    }
-                } finally {
-                    if (_didIteratorError3) {
-                        throw _iteratorError3;
+            for (var i = 0; i < this.entities.length; i++) {
+                var e = this.entities[i];
+                if (!e.invisible) {
+                    try {
+                        this.ctx.save();
+                        this.ctx.beginPath();
+                        e.draw(this.ctx);
+                        this.ctx.closePath();
+                        this.ctx.restore();
+                    } catch (e) {
+                        console.error(e);
                     }
                 }
             }
@@ -172,8 +135,7 @@ var Manager = function () {
     }, {
         key: 'destroy',
         value: function destroy() {
-            cancelAnimationFrame(this.__updateId);
-            cancelAnimationFrame(this.__drawId);
+            cancelAnimationFrame(this.__loopId);
         }
     }]);
 
