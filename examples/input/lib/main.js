@@ -8,6 +8,7 @@ window.addEventListener('load', function() {
         mousey = document.getElementById('mousey');
     input.createAction('lmb', [five.keys.button1]);
     input.createAction('rmb', [five.keys.button2]);
+    input.createAction('spacebar', [five.keys.space]);
     requestAnimationFrame(function update() {
         let cursor = document.getElementById('cursor');
         cursor.style.left = input.mousePos.x + 'px';

@@ -48,6 +48,14 @@ var _input = require('./input');
 
 var _input2 = _interopRequireDefault(_input);
 
+var _renderer = require('./renderer');
+
+var _renderer2 = _interopRequireDefault(_renderer);
+
+var _canvasRenderer = require('./canvas-renderer');
+
+var _canvasRenderer2 = _interopRequireDefault(_canvasRenderer);
+
 var _keys = require('./keys');
 
 var _keys2 = _interopRequireDefault(_keys);
@@ -59,7 +67,7 @@ var _util2 = _interopRequireDefault(_util);
 function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
 
 var five = {
-    VERSION: '0.6.5',
+    VERSION: '0.7.0',
 
     BaseEntity: _baseEntity2.default,
     CompoundEntity: _compoundEntity2.default,
@@ -72,6 +80,8 @@ var five = {
     Mixer: _mixer2.default,
     Sound: _sound2.default,
     Input: _input2.default,
+    Renderer: _renderer2.default,
+    CanvasRenderer: _canvasRenderer2.default,
     keys: _keys2.default,
     util: _util2.default
 };
