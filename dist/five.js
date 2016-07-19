@@ -67,7 +67,7 @@ var _util2 = _interopRequireDefault(_util);
 function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
 
 var five = {
-    VERSION: '0.7.1',
+    VERSION: '0.7.2',
 
     BaseEntity: _baseEntity2.default,
     CompoundEntity: _compoundEntity2.default,
