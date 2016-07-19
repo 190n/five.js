@@ -22,7 +22,7 @@ var Manager = function () {
 
         this.renderer = renderer;
         this.paused = false;
-        this.input = (0, _input2.default)(canvas);
+        this.input = (0, _input2.default)(renderer.elem);
         this.entities = [];
     }
 
