@@ -35,6 +35,10 @@ var Manager = function () {
     }, {
         key: 'addEntities',
         value: function addEntities() {
+            for (var _len = arguments.length, es = Array(_len), _key = 0; _key < _len; _key++) {
+                es[_key] = arguments[_key];
+            }
+
             this.entities = this.entities.concat(es);
             var _iteratorNormalCompletion = true;
             var _didIteratorError = false;
@@ -42,10 +46,10 @@ var Manager = function () {
 
             try {
                 for (var _iterator = es[Symbol.iterator](), _step; !(_iteratorNormalCompletion = (_step = _iterator.next()).done); _iteratorNormalCompletion = true) {
-                    var _e = _step.value;
+                    var e = _step.value;
 
-                    _e.manager = this;
-                    if (typeof _e.init == 'function') _e.init();
+                    e.manager = this;
+                    if (typeof e.init == 'function') e.init();
                 }
             } catch (err) {
                 _didIteratorError = true;
@@ -65,8 +69,8 @@ var Manager = function () {
     }, {
         key: 'removeEntities',
         value: function removeEntities() {
-            for (var _len = arguments.length, es = Array(_len), _key = 0; _key < _len; _key++) {
-                es[_key] = arguments[_key];
+            for (var _len2 = arguments.length, es = Array(_len2), _key2 = 0; _key2 < _len2; _key2++) {
+                es[_key2] = arguments[_key2];
             }
 
             this.entities = this.entities.filter(function (e) {
@@ -137,8 +141,8 @@ var Manager = function () {
 }();
 
 function ManagerFactory() {
-    for (var _len2 = arguments.length, args = Array(_len2), _key2 = 0; _key2 < _len2; _key2++) {
-        args[_key2] = arguments[_key2];
+    for (var _len3 = arguments.length, args = Array(_len3), _key3 = 0; _key3 < _len3; _key3++) {
+        args[_key3] = arguments[_key3];
     }
 
     return new (Function.prototype.bind.apply(Manager, [null].concat(args)))();
